@@ -1,5 +1,6 @@
 import User from "../Models/user.js";
 import bcrypt from "bcryptjs";
+import jwt from 'jsonwebtoken'
 
 //user register
 export const register = async (req, res) => {
@@ -25,7 +26,12 @@ export const login = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword)
       return res.json({ message: "invalid credentail", success: false });
-    res.json({ message: `welcome ${user.name}`, success: true, user });
+
+    const token = jwt.sign({userId:user._id},"!@#$%^&*()",{
+      expiresIn:'365d'
+    })
+
+    res.json({ message: `welcome ${user.name}`,token, success: true,  });
   } catch (error) {
     res.json({ message: error.message });
   }
@@ -35,6 +41,7 @@ export const login = async (req, res) => {
 
 
 //async and awiat use garena vane error aauxa db bata get garda so use async and await 
+//get all users
 export const users = async (req, res) => {
     const{email} = req.body
   try {

@@ -35,7 +35,7 @@ import { Cart } from "../Models/Cart.js";
 export const addToCart = async (req, res) => {
     let { productId, title, price, quantity, imgSrc } = req.body;
 
-    const userId = "671655ba6daf69332228e849"; // Static userId, replace with real user authentication later
+    const userId = req.user; // req.user garera user save gareko le use garna mileko dynamice code ho you 
     let cart = await Cart.findOne({ userId });
 
     if (!cart) {
@@ -67,7 +67,7 @@ export const addToCart = async (req, res) => {
 
 //get user cart
 export const userCart = async (req,res)=>{
-    const userId = "671655ba6daf69332228e849";
+    const userId = req.user;
 
     let cart = await Cart.findOne({userId})
     if(!cart) return res.json ({message:'cart not found'})
@@ -77,10 +77,10 @@ export const userCart = async (req,res)=>{
 
 
 
-//remove product form cart
+//remove product from cart
 export const removeProductFromCart = async (req, res) => {
     const productId = req.params.productId;
-    const userId = "671655ba6daf69332228e849"; // Static userId, replace with real user authentication later
+    const userId = req.user; // Static userId, replace with real user authentication later
 
     let cart = await Cart.findOne({ userId });
    
@@ -104,7 +104,7 @@ export const removeProductFromCart = async (req, res) => {
 //clear cart
 export const clearCart = async (req,res) =>{
     
-    const userId = "671655ba6daf69332228e849";
+    const userId = req.user;
     let cart = await Cart.findOne({userId});
     if(!cart){
         cart = new Cart({items:[]});
@@ -122,7 +122,7 @@ export const clearCart = async (req,res) =>{
 export const decreaseProductQuantity = async (req, res) => {
     const { productId, quantity } = req.body;
     
-    const userId = "671655ba6daf69332228e849"; // Static userId, replace with real user authentication later
+    const userId = req.user;// Static userId, replace with real user authentication later
     let cart = await Cart.findOne({ userId });
     
     if (!cart) {
@@ -154,5 +154,6 @@ export const decreaseProductQuantity = async (req, res) => {
     res.json({ message: "item quantity decrease", cart });
 
 };
+
 
 
