@@ -18,3 +18,11 @@ export const addAddress = async (req, res) => {
     );
     res.json({ message: "Address added", userAddress});
 };
+
+
+export const getAddress = async (req, res) =>{
+    let address = await Address.find({userId:req.user}).sort({createdAt:-1})
+    res.json({message:'address',userAddress:address[0]})
+
+
+}
