@@ -1,6 +1,6 @@
 import express from 'express'
-import {login, register, users} from '../Controllers/user.js';
-
+import {login, profile, register, users} from '../Controllers/user.js';
+import{Authenticated} from '../Middlewares/auth.js'
 
 const router = express.Router();
 
@@ -13,6 +13,9 @@ router.post('/login',login)
 
 //get all users
 router.get('/all',users)
+
+//get user profile 
+router.get('/profile',Authenticated,profile)
 
 
 // varaible jun xa const router tai default export gareko 
