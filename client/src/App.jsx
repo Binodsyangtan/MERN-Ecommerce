@@ -2,13 +2,18 @@ import React from 'react'
 import AppContext from './context/AppContext'
 import { useContext } from 'react'
 import ShowProduct from './component/product/ShowProduct'
+import Home from './pages/Home'
+import FeaturedProd from './pages/featuredProd'
 
 function App() {
   // const data = useContext(AppContext)
   return (
    <>
-   {/* <h1 className='text-red-400'>binod</h1> */}
-   <ShowProduct/>
+   
+    <Home/>
+   <ShowProduct/> 
+   {/* <ProductPage/> */}
+   <FeaturedProd/>
    </>
   )
 }
