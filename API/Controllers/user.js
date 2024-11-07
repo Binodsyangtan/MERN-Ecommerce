@@ -13,6 +13,8 @@ export const register = async (req, res) => {
     user = await User.create({ name, email, password: hashPass });
     res.json({ message: "user register successfully...", user, success: true });
   } catch (error) {
+    console.log("error during registration",error);
+    
     res.json({ message: error.message });
   }
 };

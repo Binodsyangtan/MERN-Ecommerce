@@ -30,9 +30,26 @@ function AppState(props) {
 
    
 
+  //register user
+
+  // const register = async(name,email,password) =>{
+  //   const api = await axios.post(`${url}/user/register`,
+  //     {name,email,password},{
+  //       headers:{"Content-Type":"Application/jspon",
+  //       body:JSON.stringify({name,email,password})
+
+  //       },
+  //       withCredentials:true,
+
+  //   });
+  //   console.log("user register",api);
+    
+
+  // }
+  
   
   return (
-    <AppContext.Provider value={{products}}>{props.children}</AppContext.Provider>
+    <AppContext.Provider value={{products,}}>{props.children}</AppContext.Provider>
   );
 }
 

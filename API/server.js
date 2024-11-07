@@ -8,6 +8,7 @@ import addressRouter from './Routes/address.js'
 import cors from 'cors';
 
 const app = express();
+
 app.use(bodyParser.json())
 
 
@@ -16,6 +17,8 @@ app.use(cors({
     methods:["GET","POST","PUT","DELETE"],
     credentials:true
 }))
+
+app.use(express.json());
 
 
 //home testing route

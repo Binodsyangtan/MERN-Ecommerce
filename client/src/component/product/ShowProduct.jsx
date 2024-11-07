@@ -12,7 +12,7 @@ function ShowProduct() {
     {products?.map((product) => ( 
       <div key={product._id} className=''>
         <div className='  border-2 border-black bg-yellow-300 h-[150px] w-[150px] text-center'>
-          <div className='flex justify-center '> 
+          <div className=' '> 
 
           <img src={product.imgSrc} alt="" />
           </div>
