@@ -54,7 +54,9 @@ function MyAccount() {
             <h3 className="font-semibold mb-2">Quick Links</h3>
             <ul>
               <Link to={'/'} className="hover:underline">Home</Link>
-              <li><a href="#" className="hover:underline">Shop</a></li>
+              <br />
+              <Link to={'/products'} className="hover:underline">shop</Link>
+              
               <li><a href="#" className="hover:underline">About</a></li>
               <li><a href="#" className="hover:underline">Contact</a></li>
             </ul>

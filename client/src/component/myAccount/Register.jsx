@@ -12,16 +12,28 @@ function handleSubmit(e){
     // console.log(e.target.name.value  );
     // console.log(e.target.email.value  );
     // console.log(e.target.password.value  );
+    const  name=e.target.name.value.trim()
+    const  email=e.target.email.value.trim()
+    const  password=e.target.password.value.trim()
+    
+    if(!name || !email || !password){
+      toast.error("please fill in all fields");
+      return;  //for stop this if condition
+    }
     
     axios.post("http://localhost:8000/api/user/register",{
-        name:e.target.name.value,
-        email:e.target.email.value,
-        password:e.target.password.value
+        name,
+        email,
+        password,
     }).then((res) =>{
-        toast.success("success")
+        toast.success("Registration successfull")
     }).catch((err)=>{
-        toast.error("bad request","error")
-    })
+        if(err.response && err.response.status === 409){
+          toast.error("bad request")
+        }else{
+          toast.error("error occured .")
+        }
+    });
 }
 
 
@@ -51,6 +63,7 @@ function handleSubmit(e){
               type="password"
               className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
               placeholder="Enter your password"
+              autoComplete='new-password'
             />
             <p className="text-sm text-gray-500 mb-4">
               A link to set a new password will be sent to your email address.
