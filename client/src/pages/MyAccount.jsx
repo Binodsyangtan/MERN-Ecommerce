@@ -3,9 +3,12 @@ import {Link} from 'react-router-dom'
 import Home from './Home';
 import Register from '../component/myAccount/register';
 import Login from '../component/myAccount/login';
+import Navbar from './Navbar';
 
 function MyAccount() {
   return (
+    <>
+    <Navbar/>
     <div className="bg-gray-100 min-h-screen">
       {/* Header */}
       <header className="bg-cover bg-center h-56 flex items-center justify-center relative">
@@ -73,6 +76,7 @@ function MyAccount() {
         </div>
       </footer>
     </div>
+              </>
   );
 }
 

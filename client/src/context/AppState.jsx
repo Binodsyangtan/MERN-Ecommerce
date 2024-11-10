@@ -5,6 +5,8 @@ import axios from 'axios'
 function AppState(props) {
     const url = "http://localhost:8000/api";
     const [products, setProducts] = useState([])
+    const [token, setToken] = useState([])
+    const [isAuthenticated, setAuthenticated] = useState(false)
     
     useEffect(() =>{
       const fetchProducts = async() =>{
