@@ -7,6 +7,9 @@ import FeaturedProd from './pages/featuredProd'
 import {BrowserRouter as Router , Routes, Route} from 'react-router-dom'
 import MyAccount from './pages/MyAccount'
 import Contact from './component/Contact/Contact'
+import FilterBar from './component/product/FilterBar'
+// import Log from './component/myAccount/login'
+
 
 function App() {
   // const data = useContext(AppContext)
@@ -17,6 +20,8 @@ function App() {
         <Route path='/products' element={<ShowProduct/>}/>
         <Route path='/myaccount' element={<MyAccount/>}/>
         <Route path='/Contact' element={<Contact/>}/>
+        {/* <Route path='/filter' element={<FilterBar/>}/> */}
+       
         
         
       </Routes>

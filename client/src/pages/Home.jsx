@@ -2,6 +2,7 @@ import React from "react";
 
 import FeaturedProd from "./featuredProd";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
  
 
 function Home() {
@@ -19,12 +20,13 @@ function Home() {
                 <h1 className="mb-4 text-3xl font-bold">
                   Rocket single seater{" "}
                 </h1>
-                <a
-                  href="#"
+                <Link to={"/products"}>
+                <span
                   className="inline-block border-b-2 border-black text-sm font-semibold hover:text-red-700"
-                >
+                  >
                   shop now
-                </a>
+                </span>
+                  </Link>
               </div>
               <div className="flex justify-center md:w-1/2">
                 <img src="../chai.png" className="h-[400px] md:h-[700px]" />
