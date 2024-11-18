@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { VscAccount } from "react-icons/vsc";
-import { CiSearch, CiHeart, CiShoppingCart, CiMenuBurger } from "react-icons/ci";
-import { Link, useLocation } from 'react-router-dom';
+import {
+  CiSearch,
+  CiHeart,
+  CiShoppingCart,
+  CiMenuBurger,
+} from "react-icons/ci";
+import { Link, useLocation } from "react-router-dom";
+import AppContext from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const { logout, isAuthenticated } = useContext(AppContext);
+  const navigate = useNavigate();
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -27,31 +36,59 @@ function Navbar() {
           <CiMenuBurger
             onClick={toggleMenu}
             className={`${
-              isMenuOpen ? "translate-x-0 transition-all" : "translate-x-full transition-all"
-            } md:hidden cursor-pointer`}
+              isMenuOpen
+                ? "translate-x-0 transition-all"
+                : "translate-x-full transition-all"
+            } cursor-pointer md:hidden`}
           />
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex  gap-3">
-          <Link to="/" className="hover:bg-red-500 rounded">Home</Link>
-          <Link to="/products" className="hover:bg-red-500 rounded">Shop</Link>
-          <Link to={"/About"} className="hover:bg-red-500 rounded">About</Link>
+        <div className="hidden gap-3 md:flex">
+          <Link to="/" className="rounded hover:bg-red-500">
+            Home
+          </Link>
+          <Link to="/products" className="rounded hover:bg-red-500">
+            Shop
+          </Link>
+          <Link to={"/About"} className="rounded hover:bg-red-500">
+            About
+          </Link>
           {location.pathname === "/Contact" ? (
-             <span className="text-gray-500 cursor-not-allowed">Contact</span>
-          ):
-          <Link to={"Contact"} className="hover:bg-red-500 rounded">Contact</Link>
-          }
+            <span className="cursor-not-allowed text-gray-500">Contact</span>
+          ) : (
+            <Link to={"Contact"} className="rounded hover:bg-red-500">
+              Contact
+            </Link>
+          )}
         </div>
 
         {/* Icon Section */}
         <div className="flex h-[28px] items-center gap-5">
-          <Link to={"/Myaccount"}>
-          <VscAccount className="hidden md:flex " />
-          </Link>
+          {!isAuthenticated && (
+            <>
+              <Link to={"/Myaccount"}>
+                <VscAccount className="hidden md:flex" />
+              </Link>
+            </>
+          )}
           <CiSearch className="" />
-          <CiHeart className="hidden md:flex" />
-          <CiShoppingCart className="hidden md:flex" />
+          {isAuthenticated && (
+            <>
+              <CiHeart className="hidden md:flex" />
+
+              <CiShoppingCart className="hidden md:flex" />
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="hidden cursor-pointer rounded-lg p-2 hover:bg-red-500 md:block"
+              >
+                logout
+              </button>
+            </>
+          )}
         </div>
       </nav>
 
@@ -61,30 +98,69 @@ function Navbar() {
         onClick={closeMenu}
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } md:hidden fixed top-0 left-0 w-full h-screen bg-gray-800 bg-opacity-70 flex justify-start items-center`}
+        } fixed left-0 top-0 flex h-screen w-full items-center justify-start bg-gray-800 bg-opacity-70 md:hidden`}
       >
         {/* Mobile Menu */}
         <div
           className={`${
-            isMenuOpen ? "translate-x-0 transition-all" : "translate-x-full transition-all"
-          } w-1/2 h-full bg-[#FBEBB5] flex flex-col items-start p-5 transition-all ease-in-out duration-300`}
+            isMenuOpen
+              ? "translate-x-0 transition-all"
+              : "translate-x-full transition-all"
+          } flex h-full w-1/2 flex-col items-start bg-[#FBEBB5] p-5 transition-all duration-300 ease-in-out`}
         >
-          <div className="text-black flex flex-col space-y-4 mt-5">
+          <div className="mt-5 flex flex-col space-y-4 text-black">
             {location.pathname === "/" ? (
-              <span className="text-gray-500 cursor-not-allowed">Home</span>
+              <span className="cursor-not-allowed text-gray-500">Home</span>
             ) : (
-              <Link to="/" onClick={closeMenu} className="hover:bg-red-500 p-2">Home</Link>
+              <Link to="/" onClick={closeMenu} className="p-2 hover:bg-red-500">
+                Home
+              </Link>
             )}
 
             {location.pathname === "/products" ? (
-              <span className="text-gray-500 cursor-not-allowed">Shop</span>
+              <span className="cursor-not-allowed text-gray-500">Shop</span>
             ) : (
-              <Link to="/products" onClick={closeMenu} className="hover:bg-red-500 p-2">Shop</Link>
+              <Link
+                to="/products"
+                onClick={closeMenu}
+                className="p-2 hover:bg-red-500"
+              >
+                Shop
+              </Link>
             )}
 
-            <Link to={'/About'} className="hover:bg-red-500 p-2 cursor-pointer">About</Link>
-            <Link to={"/Contact"} className="hover:bg-red-500 p-2 cursor-pointer">Contact</Link>
-            <Link to={"/Myaccount"} className="hover:bg-red-500 p-2 cursor-pointer">Myaccount</Link>
+            <Link to={"/About"} className="cursor-pointer p-2 hover:bg-red-500">
+              About
+            </Link>
+            <Link
+              to={"/Contact"}
+              className="cursor-pointer p-2 hover:bg-red-500"
+            >
+              Contact
+            </Link>
+            {!isAuthenticated && (
+              <>
+                <Link
+                  to={"/Myaccount"}
+                  className="cursor-pointer p-2 hover:bg-red-500"
+                >
+                  Myaccount
+                </Link>
+              </>
+            )}
+            {isAuthenticated && (
+              <>
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
+                  className="cursor-pointer p-2 hover:bg-red-500"
+                >
+                  logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

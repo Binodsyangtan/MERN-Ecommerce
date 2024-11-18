@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import App from '../../App';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/AppContext';
@@ -32,7 +33,7 @@ function Reg() {
             const result = await register(name, email, password); // Calling register function from context
 
             if (result.success) {
-                toast.success("Registration successful!");
+                // toast.success("Registration successful!");
                 navigate("/myaccount");
             } else {
                 toast.error("Registration failed.");
@@ -87,7 +88,7 @@ function Reg() {
             </div>
             
             {/* Toast Notifications */}
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     );
 }

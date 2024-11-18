@@ -9,12 +9,15 @@ import MyAccount from './pages/MyAccount'
 import Contact from './component/Contact/Contact'
 import FilterBar from './component/product/FilterBar'
 // import Log from './component/myAccount/login'
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
   // const data = useContext(AppContext)
   return (
    <Router>
+    <ToastContainer/>  {/* yesari rakhe jata ni call garna millne hunxa so yeha rakheko  */}
       <Routes>
         <Route path='/' element ={<Home/>}/>
         <Route path='/products' element={<ShowProduct/>}/>

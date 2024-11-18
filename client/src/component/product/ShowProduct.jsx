@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import FilterBar from "./FilterBar";
 
 function ShowProduct() {
-  const { products,filteredData } = useContext(AppContext);
+  const { products,filteredData,addToCart } = useContext(AppContext);
 
   return (
     <>
