@@ -11,7 +11,11 @@ import AppContext from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const { logout, isAuthenticated } = useContext(AppContext);
+  const { logout, isAuthenticated ,user,cart} = useContext(AppContext);
+  console.log("user cart",cart);
+  
+
+  
   const navigate = useNavigate();
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const location = useLocation();
@@ -61,6 +65,7 @@ function Navbar() {
               Contact
             </Link>
           )}
+          <Link to={'/profile'}>profile</Link>
         </div>
 
         {/* Icon Section */}
@@ -76,8 +81,10 @@ function Navbar() {
           {isAuthenticated && (
             <>
               <CiHeart className="hidden md:flex" />
+              <Link to={'/cart'}>
 
               <CiShoppingCart className="hidden md:flex" />
+              </Link>
               <button
                 onClick={() => {
                   logout();

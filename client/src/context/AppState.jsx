@@ -12,7 +12,9 @@ function AppState(props) {
   const [token, setToken] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [user, setUser] = useState();
   const [cart, setCart] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,13 +28,24 @@ function AppState(props) {
         // console.log(api.data.products);
         setProducts(api.data.products);
         setFilteredData(api.data.products);
+        userProfile();
       } catch (error) {
         console.log("error fetching products:", error);
       }
     };
     fetchProducts();
     userCart();
-  }, [token]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
+  }, [token,reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
+
+  useEffect(() => {
+    const lstoken = localStorage.getItem("token");
+    console.log("is token", lstoken);
+
+    if (lstoken) {
+      setToken(lstoken);
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   //register user
 
@@ -74,11 +87,32 @@ function AppState(props) {
         withCredentials: true,
       },
     );
-    toast.success(api.data.message);
-    // console.log("user login", api.data);
-    setToken(api.data.token);
+    // setToken(api.data.token);
+    console.log(api.data.token);
+
+    //i am using token form direct API response reload garda save navayara
+    const receivedToken = api.data.token;
+
+    localStorage.setItem("token", receivedToken);
+
+    //now aba chai update gareko statelai
+    setToken(receivedToken);
     setIsAuthenticated(true);
-    localStorage.setItem("token", token);
+
+    console.log("token saved to local storage", localStorage.getItem("token"));
+
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+    // console.log("user login", api.data);
     return api.data;
   };
 
@@ -100,6 +134,19 @@ function AppState(props) {
     });
   };
 
+  //user profile
+  const userProfile = async () => {
+    const api = await axios.get(`${url}/user/profile`, {
+      headers: {
+        "Content-Type": "Application/json",
+        Auth: token,
+      },
+      withCredentials: true,
+    });
+    console.log("user profile", api.data.user);
+    setUser(api.data.user);
+  };
+
   const addToCart = async (productId, title, price, quantity, imgSrc) => {
     const api = await axios.post(
       `${url}/cart/add`,
@@ -112,6 +159,7 @@ function AppState(props) {
         withCredentials: true,
       },
     );
+    setReload(!reload)
     console.log("my cart", api);
     toast.success(api.data.message, {
       position: "top-right",
@@ -139,6 +187,36 @@ function AppState(props) {
     setCart(api.data.cart);
   };
 
+  // decrease quantity
+  const decreaseQuantity = async (productId, quantity) => {
+    const api = await axios.post(`${url}/cart/--quantity`, {
+      productId,
+      quantity
+    },{
+      headers:{
+        "Content-Type":"Application/json",
+        Auth:token,
+
+      },
+      withCredentials:true
+    }
+  );
+  setReload(!reload);
+  toast.success(api.data.message, {
+    position: "top-right",
+    autoClose: 1500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
+  
+
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -147,12 +225,16 @@ function AppState(props) {
         login,
         url,
         token,
+        setToken,
         setIsAuthenticated,
         isAuthenticated,
         filteredData,
         setFilteredData,
         logout,
+        user,
         addToCart,
+        cart,
+        decreaseQuantity,
       }}
     >
       {props.children}

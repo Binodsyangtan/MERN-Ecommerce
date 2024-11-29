@@ -11,6 +11,8 @@ import FilterBar from './component/product/FilterBar'
 // import Log from './component/myAccount/login'
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Profile from './component/myAccount/Profile'
+import Cart from './component/cart/Cart'
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
         <Route path='/products' element={<ShowProduct/>}/>
         <Route path='/myaccount' element={<MyAccount/>}/>
         <Route path='/Contact' element={<Contact/>}/>
+        <Route path='/profile' element={<Profile/>}/>
+        <Route path='/cart' element={<Cart/>}/>
         {/* <Route path='/filter' element={<FilterBar/>}/> */}
        
         
