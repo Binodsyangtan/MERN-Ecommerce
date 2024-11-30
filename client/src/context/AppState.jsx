@@ -217,6 +217,33 @@ function AppState(props) {
 
   };
 
+  //remove item form cart
+  const removeFromCart = async (productId) => {
+    const api = await axios.delete(`${url}/cart/remove/${productId}`,{
+      headers:{
+        "Content-Type":"Application/json",
+        Auth:token,
+      },
+      withCredentials:true
+    }
+  );
+  setReload(!reload);
+  console.log("remove item form cart",api);
+  toast.success(api.data.message, {
+    position: "top-right",
+    autoClose: 1500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
+  
+
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -235,6 +262,7 @@ function AppState(props) {
         addToCart,
         cart,
         decreaseQuantity,
+        removeFromCart,
       }}
     >
       {props.children}

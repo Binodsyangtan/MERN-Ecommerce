@@ -3,7 +3,8 @@ import Navbar from "../../pages/Navbar";
 import AppContext from "../../context/AppContext";
 
 const Cart = () => {
-  const { cart, decreaseQuantity,addToCart} = useContext(AppContext);
+  const { cart, decreaseQuantity, addToCart, removeFromCart } =
+    useContext(AppContext);
   const [qty, setQty] = useState(0);
   const [price, setPrice] = useState(0);
   useEffect(() => {
@@ -33,22 +34,23 @@ const Cart = () => {
 
         {/* Main Section */}
         <main className="container mx-auto mt-6 px-4">
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
             {/* Cart Table */}
 
             <div className="col-span-2 rounded-lg bg-white p-6 shadow-sm">
-              <div className="grid grid-cols-5 border-b pb-4 font-bold text-gray-700">
+              <div className="grid grid-cols-6 border-b pb-4 font-bold text-gray-700">
                 <div>Product</div>
                 <div>Title</div>
                 <div>Price</div>
                 <div>Quantity</div>
                 <div>Subtotal</div>
+                <div></div>
               </div>
               {/* Product Row */}
               {cart?.items?.map((product) => (
                 <div
                   key={product._id}
-                  className="mt-4 grid grid-cols-5 items-center border-b pb-4"
+                  className="mt-4 grid grid-cols-6 items-center border-b pb-4"
                 >
                   <div>
                     <img
@@ -67,17 +69,31 @@ const Cart = () => {
                       -
                     </button>
                     {product.quantity}
-                     <button onClick={() =>
-                  addToCart(
-                    product?.productId,
-                    product.title,
-                    product.price,
-                    1,
-                    product.imgSrc,
-                  )
-                }>+</button>
+                    <button
+                      onClick={() =>
+                        addToCart(
+                          product?.productId,
+                          product.title,
+                          product.price,
+                          1,
+                          product.imgSrc,
+                        )
+                      }
+                    >
+                      +
+                    </button>
                   </div>
                   <div>{price}</div>
+                  <button
+                    onClick={() => {
+                      if (confirm("Are you sure, want to remove form cart")) {
+                        removeFromCart(product?.productId);
+                      }
+                    }}
+                    className="rounded-md bg-red-200 p-2 text-lg text-white hover:bg-red-500"
+                  >
+                    remove
+                  </button>
                 </div>
               ))}
               {/* <div className="grid grid-cols-4 items-center mt-4 border-b pb-4">
@@ -102,17 +118,17 @@ const Cart = () => {
             </div>
 
             {/* Cart Totals Section */}
-            <div className="rounded-lg bg-yellow-100 p-6 shadow-sm">
+            <div className="rounded-lg bg-[#FFF9E5] p-6 shadow-sm">
               <h2 className="text-lg font-bold">Cart Totals</h2>
               <div className="mt-4 flex justify-between">
                 <span>Subtotal</span>
-                <span>Rs. 250,000.00</span>
+                <span>Rs. {price}</span>
               </div>
               <div className="mt-4 flex justify-between font-bold">
                 <span>Total</span>
-                <span>{price}</span>
+                <span>Rs. {price}</span>
               </div>
-              <button className="mt-6 w-full rounded-lg bg-yellow-500 py-2 text-white shadow">
+              <button className="mt-6 w-full rounded-lg bg-transparent py-2 text-[#000000] shadow hover:bg-orange-100">
                 Check Out
               </button>
             </div>

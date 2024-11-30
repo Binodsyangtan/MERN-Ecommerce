@@ -13,6 +13,8 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from './component/myAccount/Profile'
 import Cart from './component/cart/Cart'
+import Checkout from './component/cart/CheckOut'
+
 
 
 function App() {
@@ -27,7 +29,7 @@ function App() {
         <Route path='/Contact' element={<Contact/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/cart' element={<Cart/>}/>
-        {/* <Route path='/filter' element={<FilterBar/>}/> */}
+        <Route path='/Checkout' element={<Checkout/>}/>
        
         
         
