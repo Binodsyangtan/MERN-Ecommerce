@@ -12,6 +12,7 @@ function Reg() {
         name: "",
         email: "",
         password: "",
+        role:""
     });
 
     const handleChange = (e) => {
@@ -22,15 +23,15 @@ function Reg() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { name, email, password } = formData;
+        const { name, email, password,role } = formData;
 
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !role) {
             toast.error("Please fill in all fields");
             return;
         }
 
         try {
-            const result = await register(name, email, password); // Calling register function from context
+            const result = await register(name, email, password,role); // Calling register function from context
 
             if (result.success) {
                 // toast.success("Registration successful!");
@@ -75,6 +76,16 @@ function Reg() {
                         name="password"
                         type="password"
                         value={formData.password}
+                        onChange={handleChange}
+                        className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                        placeholder="Enter your password"
+                        autoComplete="new-password"
+                    />
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                    <input
+                        name="role"
+                        type="role"
+                        value={formData.role}
                         onChange={handleChange}
                         className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
                         placeholder="Enter your password"

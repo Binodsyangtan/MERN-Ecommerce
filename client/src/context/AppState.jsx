@@ -4,7 +4,6 @@ import AppContext from "./AppContext";
 import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 
 function AppState(props) {
   const url = "http://localhost:8000/api";
@@ -35,7 +34,7 @@ function AppState(props) {
     };
     fetchProducts();
     userCart();
-  }, [token,reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
+  }, [token, reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
 
   useEffect(() => {
     const lstoken = localStorage.getItem("token");
@@ -49,10 +48,10 @@ function AppState(props) {
 
   //register user
 
-  const register = async (name, email, password) => {
+  const register = async (name, email, password, role) => {
     const api = await axios.post(
       `${url}/user/register`,
-      { name, email, password },
+      { name, email, password, role },
       {
         headers: {
           "content-Type": "Application/json",
@@ -92,14 +91,20 @@ function AppState(props) {
 
     //i am using token form direct API response reload garda save navayara
     const receivedToken = api.data.token;
+    const permissions = api.data.permissions;
 
     localStorage.setItem("token", receivedToken);
+    localStorage.setItem("permissions", JSON.stringify(permissions));
 
     //now aba chai update gareko statelai
     setToken(receivedToken);
     setIsAuthenticated(true);
 
     console.log("token saved to local storage", localStorage.getItem("token"));
+    console.log(
+      "permission saved to local storage",
+      localStorage.getItem("permissions"),
+    );
 
     toast.success(api.data.message, {
       position: "top-right",
@@ -112,6 +117,11 @@ function AppState(props) {
       theme: "dark",
       transition: Bounce,
     });
+
+    const userRole = permissions[0];
+    if (userRole === "user") {
+      navigate("/products");
+    }
     // console.log("user login", api.data);
     return api.data;
   };
@@ -159,7 +169,7 @@ function AppState(props) {
         withCredentials: true,
       },
     );
-    setReload(!reload)
+    setReload(!reload);
     console.log("my cart", api);
     toast.success(api.data.message, {
       position: "top-right",
@@ -189,59 +199,56 @@ function AppState(props) {
 
   // decrease quantity
   const decreaseQuantity = async (productId, quantity) => {
-    const api = await axios.post(`${url}/cart/--quantity`, {
-      productId,
-      quantity
-    },{
-      headers:{
-        "Content-Type":"Application/json",
-        Auth:token,
-
+    const api = await axios.post(
+      `${url}/cart/--quantity`,
+      {
+        productId,
+        quantity,
       },
-      withCredentials:true
-    }
-  );
-  setReload(!reload);
-  toast.success(api.data.message, {
-    position: "top-right",
-    autoClose: 1500,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnFocusLoss: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    transition: Bounce,
-  });
-  
-
+      {
+        headers: {
+          "Content-Type": "Application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      },
+    );
+    setReload(!reload);
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
   };
 
   //remove item form cart
   const removeFromCart = async (productId) => {
-    const api = await axios.delete(`${url}/cart/remove/${productId}`,{
-      headers:{
-        "Content-Type":"Application/json",
-        Auth:token,
+    const api = await axios.delete(`${url}/cart/remove/${productId}`, {
+      headers: {
+        "Content-Type": "Application/json",
+        Auth: token,
       },
-      withCredentials:true
-    }
-  );
-  setReload(!reload);
-  console.log("remove item form cart",api);
-  toast.success(api.data.message, {
-    position: "top-right",
-    autoClose: 1500,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnFocusLoss: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    transition: Bounce,
-  });
-  
-
+      withCredentials: true,
+    });
+    setReload(!reload);
+    console.log("remove item form cart", api);
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
   };
 
   return (

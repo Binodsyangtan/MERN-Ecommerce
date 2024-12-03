@@ -6,6 +6,7 @@ import productRouter from './Routes/product.js'
 import cartRouter from './Routes/cart.js'
 import addressRouter from './Routes/address.js'
 import cors from 'cors';
+import roleRouter from './Routes/role.js'
 
 const app = express();
 
@@ -39,6 +40,10 @@ app.use('/api/cart',cartRouter)
 
 //address Router 
 app.use('/api/address',addressRouter)
+
+//role
+app.use('/api/role',roleRouter)
+
 
 
 mongoose.connect(
