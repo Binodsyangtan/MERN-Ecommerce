@@ -1,21 +1,13 @@
 import React, { useContext, useState } from "react";
 import { VscAccount } from "react-icons/vsc";
-import {
-  CiSearch,
-  CiHeart,
-  CiShoppingCart,
-  CiMenuBurger,
-} from "react-icons/ci";
-import { Link, useLocation } from "react-router-dom";
+import { CiHeart, CiShoppingCart, CiMenuBurger } from "react-icons/ci";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppContext from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const { logout, isAuthenticated ,user,cart} = useContext(AppContext);
-  console.log("user cart",cart);
-  
-
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const { logout, isAuthenticated, user, cart } = useContext(AppContext);
+  const role = JSON.parse(localStorage.getItem("role"));
   const navigate = useNavigate();
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const location = useLocation();
@@ -31,6 +23,12 @@ function Navbar() {
       setisMenuOpen(false);
     }
   }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/products/search/${searchTerm}`);
+    setSearchTerm("")
+  };
 
   return (
     <>
@@ -49,7 +47,7 @@ function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden gap-3 md:flex">
-          <Link to="/" className="rounded hover:bg-red-500">
+          <Link to="/home" className="rounded hover:bg-red-500">
             Home
           </Link>
           <Link to="/products" className="rounded hover:bg-red-500">
@@ -65,8 +63,22 @@ function Navbar() {
               Contact
             </Link>
           )}
-          <Link to={'/profile'}>profile</Link>
+          <Link to={"/profile"}>Profile</Link>
         </div>
+
+        {/* Search Input */}
+        <form
+          onSubmit={handleSearch}
+          className="relative mx-4 flex w-full max-w-md items-center"
+        >
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search..."
+            className="w-half rounded border border-gray-300 p-2 focus:border-red-500 focus:outline-none"
+          />
+        </form>
 
         {/* Icon Section */}
         <div className="flex h-[28px] items-center gap-5">
@@ -77,14 +89,14 @@ function Navbar() {
               </Link>
             </>
           )}
-          <CiSearch className="" />
           {isAuthenticated && (
             <>
-              <CiHeart className="hidden md:flex" />
-              <Link to={'/cart'}>
-
-              <CiShoppingCart className="hidden md:flex" />
-              </Link>
+              {/* <CiHeart className="hidden md:flex" /> */}
+              {role !== "seller" && (
+                <Link to={"/cart"}>
+                  <CiShoppingCart className="hidden md:flex" />
+                </Link>
+              )}
               <button
                 onClick={() => {
                   logout();
@@ -92,14 +104,14 @@ function Navbar() {
                 }}
                 className="hidden cursor-pointer rounded-lg p-2 hover:bg-red-500 md:block"
               >
-                logout
+                Logout
               </button>
             </>
           )}
         </div>
       </nav>
 
-      {/* Mobile Menu (Visible when isMenuOpen is true) */}
+      {/* Mobile Menu */}
       <div
         id="menu-overlay"
         onClick={closeMenu}
@@ -116,57 +128,37 @@ function Navbar() {
           } flex h-full w-1/2 flex-col items-start bg-[#FBEBB5] p-5 transition-all duration-300 ease-in-out`}
         >
           <div className="mt-5 flex flex-col space-y-4 text-black">
-            {location.pathname === "/" ? (
-              <span className="cursor-not-allowed text-gray-500">Home</span>
-            ) : (
-              <Link to="/" onClick={closeMenu} className="p-2 hover:bg-red-500">
-                Home
-              </Link>
-            )}
-
-            {location.pathname === "/products" ? (
-              <span className="cursor-not-allowed text-gray-500">Shop</span>
-            ) : (
-              <Link
-                to="/products"
-                onClick={closeMenu}
-                className="p-2 hover:bg-red-500"
-              >
-                Shop
-              </Link>
-            )}
-
-            <Link to={"/About"} className="cursor-pointer p-2 hover:bg-red-500">
-              About
+            <Link to="/" onClick={closeMenu} className="p-2 hover:bg-red-500">
+              Home
             </Link>
             <Link
-              to={"/Contact"}
-              className="cursor-pointer p-2 hover:bg-red-500"
+              to="/products"
+              onClick={closeMenu}
+              className="p-2 hover:bg-red-500"
             >
+              Shop
+            </Link>
+            <Link to={"/About"} className="p-2 hover:bg-red-500">
+              About
+            </Link>
+            <Link to={"/Contact"} className="p-2 hover:bg-red-500">
               Contact
             </Link>
             {!isAuthenticated && (
-              <>
-                <Link
-                  to={"/Myaccount"}
-                  className="cursor-pointer p-2 hover:bg-red-500"
-                >
-                  Myaccount
-                </Link>
-              </>
+              <Link to={"/Myaccount"} className="p-2 hover:bg-red-500">
+                Myaccount
+              </Link>
             )}
             {isAuthenticated && (
-              <>
-                <button
-                  onClick={() => {
-                    logout();
-                    navigate("/");
-                  }}
-                  className="cursor-pointer p-2 hover:bg-red-500"
-                >
-                  logout
-                </button>
-              </>
+              <button
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="p-2 hover:bg-red-500"
+              >
+                Logout
+              </button>
             )}
           </div>
         </div>

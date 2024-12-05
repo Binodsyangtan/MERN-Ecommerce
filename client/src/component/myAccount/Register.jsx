@@ -35,7 +35,7 @@ function Reg() {
 
             if (result.success) {
                 // toast.success("Registration successful!");
-                navigate("/myaccount");
+                navigate("/");
             } else {
                 toast.error("Registration failed.");
             }

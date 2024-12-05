@@ -6,7 +6,7 @@ import AppContext from '../../context/AppContext';
 
 function Login() {
     const navigate = useNavigate();
-    const { login } = useContext(AppContext);
+    const { login, } = useContext(AppContext);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -33,7 +33,12 @@ function Login() {
             
             if (result.success) {
                 // toast.success("Login successful!");
-                navigate("/");
+            
+                // const role =localStorage.getItem("role");
+                // if(role === "user"){
+                //     nagivate("/products")
+                // }
+                navigate("/home");
             } else {
                 toast.error("Login failed. Please check your credentials.");
             }

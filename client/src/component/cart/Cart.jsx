@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../../pages/Navbar";
 import AppContext from "../../context/AppContext";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cart, decreaseQuantity, addToCart, removeFromCart } =
@@ -128,9 +129,11 @@ const Cart = () => {
                 <span>Total</span>
                 <span>Rs. {price}</span>
               </div>
+              <Link to={'Checkout'}>
               <button className="mt-6 w-full rounded-lg bg-transparent py-2 text-[#000000] shadow hover:bg-orange-100">
                 Check Out
               </button>
+              </Link>
             </div>
           </div>
         </main>

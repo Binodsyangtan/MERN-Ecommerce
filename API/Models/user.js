@@ -19,6 +19,7 @@ const userSchema = new  mongoose.Schema({
         type:String,
         enum:["admin","user","seller"],
         default:"user",  //if role provide garena vane default user huxna
+        ref:"Role"
 
     }],
     createAt:{

@@ -61,7 +61,7 @@ export const login = async (req, res) => {
 
     // Create JWT token
     const token = jwt.sign(
-      { userId: user._id, permissions: role.permissions },
+      { userId: user._id,permissions: role.permissions },
       "!@#$%^&*()",
       { expiresIn: "365d" }
     );
@@ -69,6 +69,7 @@ export const login = async (req, res) => {
     res.json({
       message: `Welcome ${user.name}, ${user.role}`,
       token,
+      role:role.role,
       permissions: role.permissions, // Send permissions in response
       success: true,
     });

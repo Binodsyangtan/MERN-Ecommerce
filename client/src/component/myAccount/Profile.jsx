@@ -13,6 +13,7 @@ function Profile() {
 
         <h1>welcome, {user?.name}</h1>
         <h2>{user?.email}</h2>
+        <h2>{user.role}</h2>
     </div>
     </>
   )

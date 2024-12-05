@@ -5,10 +5,12 @@ import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 function AppState(props) {
   const url = "http://localhost:8000/api";
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState([]);
+  // const [permisssions, setPermisssions] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [user, setUser] = useState();
@@ -34,16 +36,22 @@ function AppState(props) {
     };
     fetchProducts();
     userCart();
-  }, [token, reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
+  }, [token,reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
 
   useEffect(() => {
     const lstoken = localStorage.getItem("token");
+    const lspermissions = localStorage.getItem("permissions")
+    const storedRole = localStorage.getItem("role")
     console.log("is token", lstoken);
+    console.log("permissions",lspermissions);
+  console.log("role",storedRole)
+    
 
     if (lstoken) {
       setToken(lstoken);
       setIsAuthenticated(true);
     }
+    
   }, []);
 
   //register user
@@ -92,9 +100,11 @@ function AppState(props) {
     //i am using token form direct API response reload garda save navayara
     const receivedToken = api.data.token;
     const permissions = api.data.permissions;
+    const role = api.data.role
 
     localStorage.setItem("token", receivedToken);
     localStorage.setItem("permissions", JSON.stringify(permissions));
+    localStorage.setItem("role", JSON.stringify(role));
 
     //now aba chai update gareko statelai
     setToken(receivedToken);
@@ -117,14 +127,19 @@ function AppState(props) {
       theme: "dark",
       transition: Bounce,
     });
-
-    const userRole = permissions[0];
-    if (userRole === "user") {
-      navigate("/products");
-    }
     // console.log("user login", api.data);
     return api.data;
   };
+
+  // const handleLoginNavigation = (permissions) =>{
+  //   if(permissions.includes("user")){
+  //     navigate("/products")
+  //   }else if(permissions.includes("seller")){
+  //     navigate("/Contact")
+  //   }else{
+  //     navigate("/")
+  //   }
+  // }
 
   //logout user
   const logout = () => {

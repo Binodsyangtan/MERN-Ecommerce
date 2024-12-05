@@ -32,7 +32,7 @@ function featuredProd() {
             />
             <h3 className="text-lg font-medium text-gray-800">Side table</h3>
             <a
-              href="#"
+              href="/products"
               className="text-sm font-semibold border-b-2 border-black hover:text-gray-700"
             >
               View More
