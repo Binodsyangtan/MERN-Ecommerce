@@ -5,7 +5,7 @@ function featuredProd() {
     <>
     
      {/* Product Section show slide */}
-     <section className="bg-[#FAF4F4] flex flex-wrap gap-6 justify-center mt-10">
+     <section className="bg-[#FAF4F4] p-14 flex flex-wrap gap-6 justify-center mt-10">
          
             {/* first product slide show  */}
           <div className="bg-[#FAF4F4] p-4 rounded-lg shadow-lg w-full sm:w-60 text-center">

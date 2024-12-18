@@ -12,6 +12,8 @@ function Navbar() {
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const location = useLocation();
 
+  
+
   // Toggle the menu visibility
   function toggleMenu() {
     setisMenuOpen(!isMenuOpen);
@@ -27,12 +29,12 @@ function Navbar() {
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`/products/search/${searchTerm}`);
-    setSearchTerm("")
+    setSearchTerm("");
   };
 
   return (
     <>
-      <nav className="container flex h-[100px] w-auto items-center justify-between">
+      <nav className="container flex h-[100px] w-auto items-center justify-between content-center">
         {/* Hamburger Icon */}
         <div>
           <CiMenuBurger
@@ -59,11 +61,18 @@ function Navbar() {
           {location.pathname === "/Contact" ? (
             <span className="cursor-not-allowed text-gray-500">Contact</span>
           ) : (
-            <Link to={"Contact"} className="rounded hover:bg-red-500">
+            <Link to={"/Contact"} className="rounded hover:bg-red-500">
               Contact
             </Link>
           )}
-          <Link to={"/profile"}>Profile</Link>
+          {/* <Link to={"/profile"}>Profile</Link> */}
+          {/* {role == "admin" &&(
+            
+            <Link to={'/admin'}>
+            <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
+              Admin
+            </button>
+          </Link>)} */}
         </div>
 
         {/* Search Input */}
@@ -84,7 +93,7 @@ function Navbar() {
         <div className="flex h-[28px] items-center gap-5">
           {!isAuthenticated && (
             <>
-              <Link to={"/Myaccount"}>
+              <Link to={"/"}>
                 <VscAccount className="hidden md:flex" />
               </Link>
             </>
@@ -106,6 +115,13 @@ function Navbar() {
               >
                 Logout
               </button>
+              {role == "admin" &&(
+            
+            <Link to={'/admin'}>
+            <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
+              Admin
+            </button>
+          </Link>)}
             </>
           )}
         </div>

@@ -97,3 +97,38 @@ export const users = async (req, res) => {
 export const profile = async (req, res) => {
   res.json({ user: req.user });
 };
+
+
+export const deleteUser = async(req,res) =>{
+  try {
+    const userId = req.params.id;
+    await User.findByIdAndDelete(userId);
+    res.status(200).json({message:"User delete successfully"});
+    
+  } catch (error) {
+    res.status(500).json({message:"error deleting user",error})
+    
+  }
+
+}
+
+export const promoteRole = async (req,res) =>{
+  try {
+      const userId = req.params.id; //user id nikaliyo
+      const role = req.body;
+
+      const user = await User.findByIdAndUpdate(
+          userId,
+          {$addtoSet :{role}}, //yesley updata garxa role field lai
+          {new: true} //return garxa update vako user lai 
+      );
+      if(!user){
+          return res.status(404).json({message:"user not found"})
+      }
+      res.status(200).json({message:"user promoted successfully",user})
+      
+  } catch (error) {
+      res.status(500).json({ message: "Error updating user role", error });
+      
+  }
+}

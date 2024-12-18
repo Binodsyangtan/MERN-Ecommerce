@@ -146,6 +146,8 @@ function AppState(props) {
     setIsAuthenticated(false);
     setToken(" ");
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("permissions");
     toast.success("logout successfully...!", {
       position: "top-right",
       autoClose: 1500,
@@ -265,6 +267,9 @@ function AppState(props) {
       transition: Bounce,
     });
   };
+
+
+
 
   return (
     <AppContext.Provider

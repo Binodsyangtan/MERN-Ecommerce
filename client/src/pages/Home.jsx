@@ -3,6 +3,8 @@ import React from "react";
 import FeaturedProd from "./featuredProd";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import TopPicks from "../component/product/TopPicks";
+import NewArrival from "../component/product/NewArrival";
  
 
 function Home() {
@@ -37,6 +39,9 @@ function Home() {
       </header>
 
       <FeaturedProd />
+
+      <TopPicks/>
+      <NewArrival/>
     </>
   );
 }

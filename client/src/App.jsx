@@ -16,6 +16,9 @@ import Cart from './component/cart/Cart'
 import Checkout from './component/cart/CheckOut'
 import SearchProducts from './component/product/SearchProducts'
 import ProductDetail from './component/product/ProductDetail'
+import Admin from './component/myAccount/Admin'
+import EditProduct from './component/product/EditProduct'
+import TopPicks from './component/product/TopPicks'
 
 
 
@@ -36,6 +39,9 @@ function App() {
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/cart/Checkout' element={<Checkout/>}/>
+        <Route path='/admin' element={<Admin/>}/>
+        <Route path='/admin/editproduct' element={<EditProduct/>}/>
+        <Route path='/toppicks' element={<TopPicks/>}/>
        
        
         
