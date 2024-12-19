@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
 import TopPicks from "../component/product/TopPicks";
 import NewArrival from "../component/product/NewArrival";
+import Footer from "./Footer";
  
 
 function Home() {
@@ -42,6 +43,7 @@ function Home() {
 
       <TopPicks/>
       <NewArrival/>
+      <Footer/>
     </>
   );
 }

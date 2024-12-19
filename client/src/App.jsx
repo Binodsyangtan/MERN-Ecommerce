@@ -19,6 +19,9 @@ import ProductDetail from './component/product/ProductDetail'
 import Admin from './component/myAccount/Admin'
 import EditProduct from './component/product/EditProduct'
 import TopPicks from './component/product/TopPicks'
+import Footer from './pages/Footer'
+import BlogForm from './component/blog/Blog'
+import BlogList from './component/blog/ShowBlog'
 
 
 
@@ -42,6 +45,9 @@ function App() {
         <Route path='/admin' element={<Admin/>}/>
         <Route path='/admin/editproduct' element={<EditProduct/>}/>
         <Route path='/toppicks' element={<TopPicks/>}/>
+        <Route path='/footer' element={<Footer/>}/>
+        <Route path='/blog' element={<BlogForm/>}/>
+        <Route path='/bloglist' element={<BlogList/>}/>
        
        
         

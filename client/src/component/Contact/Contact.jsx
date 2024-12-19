@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../../pages/Navbar";
+import Footer from "../../pages/Footer";
 
 function Contact() {
   return (
@@ -90,9 +91,9 @@ function Contact() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-16 bg-[#f8ece4] py-10 text-gray-700">
+        {/* <footer className="mt-16 bg-[#f8ece4] py-10 text-gray-700">
           <div className="container mx-auto grid gap-10 px-4 md:grid-cols-3">
-            {/* Footer Info */}
+           
             <div>
               <h3 className="font-semibold">Free Delivery</h3>
               <p>For all orders over $50, consectetur adipim scing elit.</p>
@@ -130,7 +131,8 @@ function Contact() {
           <div className="mt-10 text-center text-gray-600">
             © 2023 Maxsuel House. All rights reserved
           </div>
-        </footer>
+        </footer> */}
+        <Footer/>
       </div>
     </>
   );

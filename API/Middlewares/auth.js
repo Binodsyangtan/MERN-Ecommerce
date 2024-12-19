@@ -13,7 +13,7 @@ export const Authenticated = async (req, res, next) => {
     let user = await User.findById(id)
     if(!user) return res.json ({message:'user not exist '})
 
-    req.user = user //yesma use save hunxa so if user use gana chahema req.user use garna sakxu ma 
+    req.user = user //yesma user save hunxa so if user use gana chahema req.user use garna sakxu ma 
 
     next();  // auth paxi k function chalauna ko lagi 
   

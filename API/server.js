@@ -7,6 +7,7 @@ import cartRouter from './Routes/cart.js'
 import addressRouter from './Routes/address.js'
 import cors from 'cors';
 import roleRouter from './Routes/role.js'
+import blogRouter from './Routes/blog.js'
 
 const app = express();
 
@@ -42,6 +43,9 @@ app.use('/api/address',addressRouter)
 
 //role
 app.use('/api/role',roleRouter)
+
+//blog router
+app.use('/api/blog',blogRouter)
 
 
 
