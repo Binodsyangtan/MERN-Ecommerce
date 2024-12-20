@@ -5,13 +5,10 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import AppContext from "../../context/AppContext";
 import { Link } from "react-router-dom";
 
-
-
-
 function Admin() {
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("sidebar");
-  const { products } = useContext(AppContext);
+  const { products, blogs } = useContext(AppContext);
   const url = "http://localhost:8000/api";
 
   useEffect(() => {
@@ -150,10 +147,13 @@ function Admin() {
         <div className="w-50 fixed bottom-0 left-0 top-0 bg-[#FBEBB5] p-4 text-black">
           <div className="mb-6 text-lg font-bold">Admin Panel</div>
           <nav>
-            <Link to={'/home'}>
-            <button className="bg-green-500 hover:bg-green-700 mb-4 block rounded px-8 py-2 text-left  " > HOME</button>
+            <Link to={"/home"}>
+              <button className="mb-4 block rounded bg-green-500 px-8 py-2 text-left hover:bg-green-700">
+                {" "}
+                HOME
+              </button>
             </Link>
-       
+
             <button
               onClick={() => setView("dashboard")}
               className="mb-4 block w-full rounded px-4 py-2 text-left hover:bg-gray-700 hover:text-white"
@@ -171,6 +171,12 @@ function Admin() {
               className="mb-4 block w-full rounded px-4 py-2 text-left hover:bg-gray-700 hover:text-white"
             >
               <FaBox className="mr-2 inline" /> Products
+            </button>
+            <button
+              onClick={() => setView("blogs")}
+              className="mb-4 block w-full rounded px-4 py-2 text-left hover:bg-gray-700 hover:text-white"
+            >
+              <FaBox className="mr-2 inline" /> blogs
             </button>
           </nav>
         </div>
@@ -254,16 +260,62 @@ function Admin() {
                     <p className="mt-2 text-lg font-semibold">
                       Rs. {product.price}
                     </p>
-                    <Link to={'/admin/editproduct'}>
-                    <button  className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
-                      Edit Product
-                    </button>
+                    <Link to={"/admin/editproduct"}>
+                      <button className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
+                        Edit Product
+                      </button>
                     </Link>
-                   
+
                     <button className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700">
                       delete Product
                     </button>
-                
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {view === "blogs" && (
+            <>
+              <h1 className="mb-4 text-2xl font-semibold text-gray-800">
+                Blog list
+              </h1>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {blogs.map((blog) => (
+                  <div
+                    key={blog._id}
+                    className="rounded-lg border p-4 shadow transition duration-300 hover:shadow-md"
+                  >
+                    <div>
+                      <img
+                        src={blog.imgSrc || "https://via.placeholder.com/300"}
+                        alt={blog.title}
+                        className="mb-4 h-48 w-full rounded-t-lg object-cover"
+                      />
+                      <h2 className="mb-2 text-lg font-bold">{blog.title}</h2>
+                      <p className="mb-4 text-sm text-gray-600">
+                        <span className="font-semibold">Author:</span>{" "}
+                        {blog.author || "Anonymous"}
+                      </p>
+                      <p className="mb-4 text-gray-700">
+                        {blog.content.slice(0, 100)}...
+                      </p>
+                      <p className="mb-2 text-sm text-gray-500">
+                        <span className="font-semibold">Category:</span>{" "}
+                        {blog.category}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        <span className="font-semibold">Tags:</span>{" "}
+                        {blog.tags.join(", ") || "N/A"}
+                      </p>
+
+                      <button className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
+                        Edit Blog
+                      </button>
+                      <button className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700">
+                      delete Blog
+                    </button>
+                    </div>
                   </div>
                 ))}
               </div>

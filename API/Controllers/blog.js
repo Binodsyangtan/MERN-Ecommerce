@@ -26,7 +26,43 @@ export const createBlogPost = async (req, res) => {
   }
 };
 
+
+//get all blogs
  export const getBlogs = async(req,res) =>{
     let blogs =  await Blogs.find().sort({ createdAt: -1 });
     res.json({ message: "all blogs",blogs });
+ }
+
+
+ //find blog by id
+
+ export const getBlogById = async(req,res) =>{
+    try {
+        const id = req.params.id;
+        const blog = await Blogs.findById(id);
+
+        if(!blog){
+            return res.status(404).json({
+                success:false,
+                message:"Blog post not found",
+
+            });
+
+        }
+        //else response with blog details
+        res.status(200).json({
+            success:true,
+            message:"Blog post fetched successfully",
+            data:blog,
+        })
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success:false,
+            message:"an error occured while fetching the blog post"
+        })
+        
+        
+    }
  }

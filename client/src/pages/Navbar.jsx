@@ -55,8 +55,8 @@ function Navbar() {
           <Link to="/products" className="rounded hover:bg-red-500">
             Shop
           </Link>
-          <Link to={"/About"} className="rounded hover:bg-red-500">
-            About
+          <Link to={"/bloglist"} className="rounded hover:bg-red-500">
+            Blog
           </Link>
           {location.pathname === "/Contact" ? (
             <span className="cursor-not-allowed text-gray-500">Contact</span>

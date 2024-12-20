@@ -28,13 +28,13 @@ export const getproduct = async (req, res) => {
   res.json({ message: "all product", products });
 };
 
-//find product bu id
+//find product by id
 export const getProductById = async (req, res) => {
   const id = req.params.id;
   
   let product = await Products.findById(id);
   if (!product) return res.json({ message: "invalid id" });
-  res.json({ message: "Specific prodcut", product });
+  res.json({ message: "Specific product", product });
 };
 
 //update product by id

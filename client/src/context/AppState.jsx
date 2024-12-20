@@ -5,7 +5,6 @@ import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 function AppState(props) {
   const url = "http://localhost:8000/api";
   const [products, setProducts] = useState([]);
@@ -16,6 +15,11 @@ function AppState(props) {
   const [user, setUser] = useState();
   const [cart, setCart] = useState([]);
   const [reload, setReload] = useState(false);
+
+  //blogs
+  const [blogs, setBlogs] = useState([]); // State to store blogs
+  const [loading, setLoading] = useState(true); // State to show loading status
+  const [error, setError] = useState(""); // State to show errors
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,22 +40,20 @@ function AppState(props) {
     };
     fetchProducts();
     userCart();
-  }, [token,reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
+  }, [token, reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
 
   useEffect(() => {
     const lstoken = localStorage.getItem("token");
-    const lspermissions = localStorage.getItem("permissions")
-    const storedRole = localStorage.getItem("role")
+    const lspermissions = localStorage.getItem("permissions");
+    const storedRole = localStorage.getItem("role");
     console.log("is token", lstoken);
-    console.log("permissions",lspermissions);
-  console.log("role",storedRole)
-    
+    console.log("permissions", lspermissions);
+    console.log("role", storedRole);
 
     if (lstoken) {
       setToken(lstoken);
       setIsAuthenticated(true);
     }
-    
   }, []);
 
   //register user
@@ -100,7 +102,7 @@ function AppState(props) {
     //i am using token form direct API response reload garda save navayara
     const receivedToken = api.data.token;
     const permissions = api.data.permissions;
-    const role = api.data.role
+    const role = api.data.role;
 
     localStorage.setItem("token", receivedToken);
     localStorage.setItem("permissions", JSON.stringify(permissions));
@@ -268,8 +270,23 @@ function AppState(props) {
     });
   };
 
+  //show blogs or fetch blogs
+  useEffect(() => {
+    // Fetch blogs from the API
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get(`${url}/blog/getblogs`);
+        setBlogs(response.data.blogs || []); // Assuming 'blogs' is in the response
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load blogs");
+        setLoading(false);
+      }
+    };
 
-
+    fetchBlogs();
+  }, []);
 
   return (
     <AppContext.Provider
@@ -290,6 +307,9 @@ function AppState(props) {
         cart,
         decreaseQuantity,
         removeFromCart,
+        blogs,
+        loading,
+        error,
       }}
     >
       {props.children}

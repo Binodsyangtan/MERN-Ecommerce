@@ -22,6 +22,7 @@ import TopPicks from './component/product/TopPicks'
 import Footer from './pages/Footer'
 import BlogForm from './component/blog/Blog'
 import BlogList from './component/blog/ShowBlog'
+import BlogDetails from './component/blog/BlogDetails'
 
 
 
@@ -48,6 +49,7 @@ function App() {
         <Route path='/footer' element={<Footer/>}/>
         <Route path='/blog' element={<BlogForm/>}/>
         <Route path='/bloglist' element={<BlogList/>}/>
+        <Route path='/bloglist/:id' element={<BlogDetails/>}/>
        
        
         

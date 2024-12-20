@@ -1,7 +1,9 @@
 import React from "react";
+import Footer from "../../pages/Footer";
 
 const Checkout = () => {
   return (
+    <>
     <div className="p-8 font-sans">
       {/* Header */}
       <div className="text-center mb-10">
@@ -19,7 +21,7 @@ const Checkout = () => {
                 type="text"
                 placeholder="First Name"
                 className="border border-gray-300 p-3 rounded w-full"
-              />
+                />
               <input
                 type="text"
                 placeholder="Last Name"
@@ -44,7 +46,7 @@ const Checkout = () => {
               type="text"
               placeholder="Town / City"
               className="border border-gray-300 p-3 rounded w-full"
-            />
+              />
             <select className="border border-gray-300 p-3 rounded w-full">
               <option value="western-province">Western Province</option>
               {/* Add more provinces */}
@@ -58,16 +60,16 @@ const Checkout = () => {
               type="text"
               placeholder="Phone"
               className="border border-gray-300 p-3 rounded w-full"
-            />
+              />
             <input
               type="email"
               placeholder="Email Address"
               className="border border-gray-300 p-3 rounded w-full"
-            />
+              />
             <textarea
               placeholder="Additional Information"
               className="border border-gray-300 p-3 rounded w-full h-24"
-            />
+              />
           </form>
         </div>
 
@@ -109,6 +111,8 @@ const Checkout = () => {
         </div>
       </div>
     </div>
+    <Footer/>
+              </>
   );
 };
 

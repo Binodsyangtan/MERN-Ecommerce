@@ -3,12 +3,17 @@ import AppContext from "../../context/AppContext";
 import Navbar from "../../pages/Navbar";
 import { Link } from "react-router-dom";
 import FilterBar from "./FilterBar";
+import Footer from "../../pages/Footer";
 
 function ShowProduct() {
-  const { products, filteredData, addToCart } = useContext(AppContext);
+  const { products, filteredData, addToCart,loading,error } = useContext(AppContext);
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const role = JSON.parse(localStorage.getItem("role"));
   // console.log(role);
+
+
+  if (loading) return <p className="text-center text-gray-500">Loading blogs...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
     <>
@@ -73,6 +78,7 @@ function ShowProduct() {
           ))}
         </div>
       </div>
+      <Footer/>
     </>
   );
 }
