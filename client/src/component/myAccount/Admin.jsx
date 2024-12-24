@@ -4,8 +4,10 @@ import axios from "axios";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import AppContext from "../../context/AppContext";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Admin() {
+  const { id } = useParams()
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("sidebar");
   const { products, blogs } = useContext(AppContext);
@@ -308,10 +310,11 @@ function Admin() {
                         <span className="font-semibold">Tags:</span>{" "}
                         {blog.tags.join(", ") || "N/A"}
                       </p>
-
+                      <Link to={`/edit-blog/${blog._id}`}>
                       <button className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
                         Edit Blog
                       </button>
+                      </Link>
                       <button className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700">
                       delete Blog
                     </button>

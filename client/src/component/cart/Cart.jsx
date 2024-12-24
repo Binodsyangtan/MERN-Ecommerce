@@ -4,22 +4,10 @@ import AppContext from "../../context/AppContext";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, decreaseQuantity, addToCart, removeFromCart } =
+  const { cart, decreaseQuantity, addToCart, removeFromCart,qty,price } =
     useContext(AppContext);
-  const [qty, setQty] = useState(0);
-  const [price, setPrice] = useState(0);
-  useEffect(() => {
-    let qty = 0;
-    let price = 0;
-    if (cart?.items) {
-      for (let i = 0; i < cart.items?.length; i++) {
-        qty += cart.items[i].qty;
-        price += cart.items[i].price;
-      }
-    }
-    setPrice(price);
-    setQty(qty);
-  }, [cart]);
+
+ 
 
   return (
     <>
@@ -97,25 +85,6 @@ const Cart = () => {
                   </button>
                 </div>
               ))}
-              {/* <div className="grid grid-cols-4 items-center mt-4 border-b pb-4">
-              <div className="flex items-center">
-                <img
-                  src=""
-                  alt="Product"
-                  className="w-16 h-16 rounded-lg object-cover"
-                />
-                
-              </div>
-              <div>Rs. 250,000.00</div>
-              <div>
-                <input
-                  type="number"
-                  className="w-12 border border-gray-300 rounded px-2"
-                  defaultValue="1"
-                  />
-              </div>
-              <div>Rs. 250,000.00</div>
-            </div> */}
             </div>
 
             {/* Cart Totals Section */}
@@ -129,10 +98,10 @@ const Cart = () => {
                 <span>Total</span>
                 <span>Rs. {price}</span>
               </div>
-              <Link to={'Checkout'}>
-              <button className="mt-6 w-full rounded-lg bg-transparent py-2 text-[#000000] shadow hover:bg-orange-100">
-                Check Out
-              </button>
+              <Link to={"Checkout"}>
+                <button className="mt-6 w-full rounded-lg bg-transparent py-2 text-[#000000] shadow hover:bg-orange-100">
+                  Check Out
+                </button>
               </Link>
             </div>
           </div>

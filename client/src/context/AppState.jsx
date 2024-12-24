@@ -16,6 +16,10 @@ function AppState(props) {
   const [cart, setCart] = useState([]);
   const [reload, setReload] = useState(false);
 
+  //checkout
+    const [qty, setQty] = useState(0);
+    const [price, setPrice] = useState(0);
+
   //blogs
   const [blogs, setBlogs] = useState([]); // State to store blogs
   const [loading, setLoading] = useState(true); // State to show loading status
@@ -270,6 +274,21 @@ function AppState(props) {
     });
   };
 
+
+  ///cart total cost
+  useEffect(() => {
+    let qty = 0;
+    let price = 0;
+    if (cart?.items) {
+      for (let i = 0; i < cart.items?.length; i++) {
+        qty += cart.items[i].qty;
+        price += cart.items[i].price;
+      }
+    }
+    setPrice(price);
+    setQty(qty);
+  }, [cart]);
+
   //show blogs or fetch blogs
   useEffect(() => {
     // Fetch blogs from the API
@@ -287,6 +306,14 @@ function AppState(props) {
 
     fetchBlogs();
   }, []);
+
+
+
+
+
+
+
+
 
   return (
     <AppContext.Provider
@@ -307,6 +334,8 @@ function AppState(props) {
         cart,
         decreaseQuantity,
         removeFromCart,
+        qty,
+        price,
         blogs,
         loading,
         error,

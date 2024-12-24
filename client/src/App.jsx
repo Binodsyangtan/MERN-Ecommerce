@@ -23,6 +23,7 @@ import Footer from './pages/Footer'
 import BlogForm from './component/blog/Blog'
 import BlogList from './component/blog/ShowBlog'
 import BlogDetails from './component/blog/BlogDetails'
+import EditBlog from './component/blog/EditBlog'
 
 
 
@@ -50,6 +51,7 @@ function App() {
         <Route path='/blog' element={<BlogForm/>}/>
         <Route path='/bloglist' element={<BlogList/>}/>
         <Route path='/bloglist/:id' element={<BlogDetails/>}/>
+        <Route path='/edit-blog/:id' element={<EditBlog/>}/>
        
        
         

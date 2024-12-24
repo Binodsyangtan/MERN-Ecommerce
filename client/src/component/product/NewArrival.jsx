@@ -8,7 +8,7 @@ const NewArrival = () => {
         <div className="flex-1">
           <div className="bg-[#FBEBB5] h-[300px] md:h-[400px] w-full overflow-hidden">
             <img
-              src="../public/arrival.png"
+              src="/arrival.png"
               alt="Asgaard sofa"
               className="object-cover w-full h-full"
             />

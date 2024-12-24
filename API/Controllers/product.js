@@ -52,3 +52,4 @@ export const deleteProductById = async (req, res) => {
   res.json({ message: "Product has been deleted..", prodcut });
 };
 
+

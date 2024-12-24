@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../../pages/Navbar";
+import Footer from "../../pages/Footer";
 
 const BlogDetails = () => {
   const { id } = useParams();
@@ -81,6 +82,7 @@ const BlogDetails = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };
