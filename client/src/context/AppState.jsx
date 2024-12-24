@@ -17,8 +17,9 @@ function AppState(props) {
   const [reload, setReload] = useState(false);
 
   //checkout
-    const [qty, setQty] = useState(0);
-    const [price, setPrice] = useState(0);
+  const [qty, setQty] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [userAddress, setUserAddress] = useState("")
 
   //blogs
   const [blogs, setBlogs] = useState([]); // State to store blogs
@@ -44,6 +45,7 @@ function AppState(props) {
     };
     fetchProducts();
     userCart();
+    getAddress();//jaba reload hunxa taba fetch vayra aauxa address
   }, [token, reload]); //if this dependecy array diyana vane re render whichc so empty array diay it only runs one time on browser like while console.log
 
   useEffect(() => {
@@ -274,7 +276,6 @@ function AppState(props) {
     });
   };
 
-
   ///cart total cost
   useEffect(() => {
     let qty = 0;
@@ -288,6 +289,61 @@ function AppState(props) {
     setPrice(price);
     setQty(qty);
   }, [cart]);
+
+
+//shipping address add
+  const shippingAddress = async (
+    fullName,
+    address,
+    city,
+    state,
+    country,
+    pincode,
+    phoneNumber,
+  ) => {
+    const api = await axios.post(
+      `${url}/address/add`,
+      { fullName, address, city, state, country, pincode, phoneNumber },
+      {
+        headers: {
+          "content-Type": "Application/json",
+          Auth: token,
+        },
+        withCredentials: true,
+      },
+    );
+    toast.success(api.data.message, {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+
+    return api.data;
+  };
+
+
+  //get old address
+
+const getAddress = async()=>{
+  const api = await axios.get(`${url}/address/get`,{
+    headers:{
+      "Content-Type":"Application/json",
+      Auth:token
+    },
+    withCredentials:true,
+  });
+
+  // console.log("user address",api.data.userAddress);
+  setUserAddress(api.data.userAddress)
+}
+
+
 
   //show blogs or fetch blogs
   useEffect(() => {
@@ -306,14 +362,6 @@ function AppState(props) {
 
     fetchBlogs();
   }, []);
-
-
-
-
-
-
-
-
 
   return (
     <AppContext.Provider
@@ -336,6 +384,8 @@ function AppState(props) {
         removeFromCart,
         qty,
         price,
+        shippingAddress,
+        userAddress,
         blogs,
         loading,
         error,

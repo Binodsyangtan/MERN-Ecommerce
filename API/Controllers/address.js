@@ -16,7 +16,7 @@ export const addAddress = async (req, res) => {
         pincode,
         phoneNumber}
     );
-    res.json({ message: "Address added", userAddress});
+    res.json({ message: "Address added", userAddress,success:true});
 };
 
 

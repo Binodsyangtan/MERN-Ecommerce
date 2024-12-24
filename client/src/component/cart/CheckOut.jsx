@@ -1,11 +1,77 @@
 import React from "react";
 import Footer from "../../pages/Footer";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import AppContext from "../../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import {  toast } from "react-toastify";
 
 const Checkout = () => {
-  const { price, cart } = useContext(AppContext);
-  
+  const navigate = useNavigate();
+  const { price, cart, shippingAddress, userAddress } = useContext(AppContext);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    pincode: "",
+    phoneNumber: "",
+  });
+
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const { fullName, address, city, state, country, pincode, phoneNumber } =
+    formData;
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    // console.log(formData);
+    if (
+      !fullName ||
+      !address ||
+      !city ||
+      !state ||
+      !country ||
+      !pincode ||
+      !phoneNumber
+    ) {
+      toast.error("Please enter all input field");
+      return;
+    }
+
+    const result = await shippingAddress(
+      fullName,
+      address,
+      city,
+      state,
+      country,
+      pincode,
+      phoneNumber,
+    );
+    // console.log("addres added", result);
+
+    //if i want to add navigate then yo ma lekhne aailey lai yesai rakhya xu
+    if (result.success) {
+      navigate("/cart/checkout");
+    }
+
+    //submit vyasi khali garnalai yo use gareko
+    setFormData(
+      {
+        fullName: "",
+        address: "",
+        city: "",
+        state: "",
+        country: "",
+        pincode: "",
+        phoneNumber: "",
+      }
+    )
+  };
+
   return (
     <>
       <div className="p-8 font-sans">
@@ -19,63 +85,89 @@ const Checkout = () => {
           {/* Billing Details */}
           <div className="flex-1">
             <h3 className="mb-6 text-xl font-bold">Billing Details</h3>
-            <form className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
+            <form className="space-y-6" onSubmit={submitHandler}>
+              <div className="">
                 <input
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={onChangeHandler}
                   type="text"
-                  placeholder="First Name"
-                  className="w-full rounded border border-gray-300 p-3"
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
+                  placeholder="Full Name"
                   className="w-full rounded border border-gray-300 p-3"
                 />
               </div>
               <input
+                name="country"
+                value={formData.country}
+                onChange={onChangeHandler}
                 type="text"
-                placeholder="Company Name (Optional)"
+                placeholder="Country"
                 className="w-full rounded border border-gray-300 p-3"
               />
-              <select className="w-full rounded border border-gray-300 p-3">
+              {/* <select className="w-full rounded border border-gray-300 p-3">
                 <option value="sri-lanka">KATHMANDU</option>
                 <option value="sri-lanka">LALITPUT</option>
                 <option value="sri-lanka">BHAKTAPUR</option>
-              </select>
+              </select> */}
               <input
+                name="state"
+                value={formData.state}
+                onChange={onChangeHandler}
                 type="text"
-                placeholder="Street Address"
+                placeholder="state"
                 className="w-full rounded border border-gray-300 p-3"
               />
               <input
+                name="city"
+                value={formData.city}
+                onChange={onChangeHandler}
                 type="text"
                 placeholder="Town / City"
                 className="w-full rounded border border-gray-300 p-3"
               />
-              <select className="w-full rounded border border-gray-300 p-3">
+              {/* <select className="w-full rounded border border-gray-300 p-3">
                 <option value="western-province">Western Province</option>
-                {/* Add more provinces */}
-              </select>
+               
+              </select> */}
               <input
+                name="pincode"
+                value={formData.pincode}
+                onChange={onChangeHandler}
                 type="text"
-                placeholder="ZIP Code"
+                placeholder="PIN Code"
                 className="w-full rounded border border-gray-300 p-3"
               />
               <input
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={onChangeHandler}
                 type="text"
-                placeholder="Phone"
+                placeholder="Phone number"
                 className="w-full rounded border border-gray-300 p-3"
               />
               <input
-                type="email"
-                placeholder="Email Address"
+                name="address"
+                value={formData.address}
+                onChange={onChangeHandler}
+                type="text"
+                placeholder=" Address"
                 className="w-full rounded border border-gray-300 p-3"
               />
-              <textarea
-                placeholder="Additional Information"
-                className="h-24 w-full rounded border border-gray-300 p-3"
-              />
+              <button
+                type="submit"
+                className="w-full rounded bg-[#FBEBB5] p-2 text-black"
+              >
+                Submit
+              </button>
             </form>
+            {userAddress && (
+              <div className="d-grid mt-3">
+                {/* hera we can use navigate when we click old address button */}
+                <button className="btn btn-warning w-full rounded bg-green-500 p-2 text-white">
+                  Use old Address
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Order Summary */}
@@ -90,10 +182,10 @@ const Checkout = () => {
                 <hr className="border-gray-300" />
               </div>
             ))}
-                <div className="flex justify-between font-bold">
-                  <span>Total</span>
-                  <span>Rs.{price}</span>
-                </div>
+            <div className="flex justify-between font-bold">
+              <span>Total</span>
+              <span>Rs.{price}</span>
+            </div>
 
             <hr className="my-6 border-gray-300" />
 
