@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 function Admin() {
   const { id } = useParams()
   const [users, setUsers] = useState([]);
-  const [view, setView] = useState("sidebar");
+  const [view, setView] = useState("dashboard");
   const { products, blogs } = useContext(AppContext);
   const url = "http://localhost:8000/api";
 
@@ -30,6 +30,7 @@ function Admin() {
 
     if (view === "users") {
       fetchUsers();
+      
     }
   }, [view]);
 
@@ -241,9 +242,16 @@ function Admin() {
           {/* Products View */}
           {view === "products" && (
             <>
+            <div className="flex justify-between">
+
               <h1 className="mb-4 text-2xl font-semibold text-gray-800">
                 Products List
               </h1>
+              <Link to={"/admin/addproduct"}>
+              <button className="rounded bg-green-500 p-2">Add product</button>
+              </Link>
+            </div>
+
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
                   <div
@@ -262,7 +270,7 @@ function Admin() {
                     <p className="mt-2 text-lg font-semibold">
                       Rs. {product.price}
                     </p>
-                    <Link to={"/admin/editproduct"}>
+                    <Link to={`/edit-product/${product._id}`}>
                       <button className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
                         Edit Product
                       </button>

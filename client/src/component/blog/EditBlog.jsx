@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, Bounce } from "react-toastify";
 
 const EditBlog = () => {
+  const url = "http://localhost:8000/api";
   const { id } = useParams(); // Get the blog ID from the URL
   const navigate = useNavigate(); // For redirecting after updating
   const [blog, setBlog] = useState({
@@ -20,7 +22,7 @@ const EditBlog = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/blog/${id}`);
+        const response = await axios.get(`${url}/blog/${id}`);
         const fetchedBlog = response.data.data;
 
         setBlog({
@@ -30,7 +32,10 @@ const EditBlog = () => {
           tags: fetchedBlog.tags.join(", "),
           category: fetchedBlog.category,
           imgSrc: fetchedBlog.imgSrc,
+
         });
+        
+        
         setLoading(false);
       } catch (error) {
         console.error("Error fetching blog details:", error);
@@ -38,6 +43,7 @@ const EditBlog = () => {
       }
     };
     fetchBlog();
+    
   }, [id]);
 
   // Handle form input changes
@@ -46,29 +52,55 @@ const EditBlog = () => {
     setBlog({ ...blog, [name]: value });
   };
 
-const handleSubmit = async(e) =>{
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    
-    
-  } catch (error) {
-    
-  }
-}
+    try {
+      const response = await axios.put(`${url}/blog/update/${id}`, blog);
+      if (response.status === 200) {
+        toast.success(response.data.message || "Blog updated successfully!", {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
 
-
-  
+        // Redirect to admin view and set the view to "blog"
+        navigate("/admin?view=blog");
+      }
+    } catch (error) {
+      console.error("Error updating blog:", error);
+      toast.error("Failed to update blog. Please try again.", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h1 className="text-2xl font-bold text-center mb-6">Edit Blog</h1>
+    <div className="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-lg">
+      <h1 className="mb-6 text-center text-2xl font-bold">Edit Blog</h1>
       <form onSubmit={handleSubmit}>
         {/* Title */}
         <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
             Title
           </label>
           <input
@@ -77,7 +109,7 @@ const handleSubmit = async(e) =>{
             name="title"
             value={blog.title}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className="mt-1 w-full rounded-md border border-gray-300 p-2"
             placeholder="Enter blog title"
             required
           />
@@ -85,7 +117,10 @@ const handleSubmit = async(e) =>{
 
         {/* Content */}
         <div className="mb-4">
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700"
+          >
             Content
           </label>
           <textarea
@@ -93,7 +128,7 @@ const handleSubmit = async(e) =>{
             name="content"
             value={blog.content}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className="mt-1 w-full rounded-md border border-gray-300 p-2"
             placeholder="Enter blog content"
             rows="5"
             required
@@ -102,7 +137,10 @@ const handleSubmit = async(e) =>{
 
         {/* Author */}
         <div className="mb-4">
-          <label htmlFor="author" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="author"
+            className="block text-sm font-medium text-gray-700"
+          >
             Author
           </label>
           <input
@@ -111,7 +149,7 @@ const handleSubmit = async(e) =>{
             name="author"
             value={blog.author}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className="mt-1 w-full rounded-md border border-gray-300 p-2"
             placeholder="Enter author name"
             required
           />
@@ -119,7 +157,10 @@ const handleSubmit = async(e) =>{
 
         {/* Tags */}
         <div className="mb-4">
-          <label htmlFor="tags" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="tags"
+            className="block text-sm font-medium text-gray-700"
+          >
             Tags (comma-separated)
           </label>
           <input
@@ -128,14 +169,17 @@ const handleSubmit = async(e) =>{
             name="tags"
             value={blog.tags}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className="mt-1 w-full rounded-md border border-gray-300 p-2"
             placeholder="Enter tags (e.g., tag1, tag2)"
           />
         </div>
 
         {/* Category */}
         <div className="mb-4">
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-gray-700"
+          >
             Category
           </label>
           <input
@@ -144,7 +188,7 @@ const handleSubmit = async(e) =>{
             name="category"
             value={blog.category}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className="mt-1 w-full rounded-md border border-gray-300 p-2"
             placeholder="Enter blog category"
             required
           />
@@ -152,7 +196,10 @@ const handleSubmit = async(e) =>{
 
         {/* Image Source */}
         <div className="mb-4">
-          <label htmlFor="imgSrc" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="imgSrc"
+            className="block text-sm font-medium text-gray-700"
+          >
             Image URL
           </label>
           <input
@@ -161,7 +208,7 @@ const handleSubmit = async(e) =>{
             name="imgSrc"
             value={blog.imgSrc}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className="mt-1 w-full rounded-md border border-gray-300 p-2"
             placeholder="Enter image URL"
             required
           />
@@ -170,7 +217,7 @@ const handleSubmit = async(e) =>{
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600 transition duration-300"
+          className="w-full rounded-md bg-blue-500 px-4 py-2 font-bold text-white transition duration-300 hover:bg-blue-600"
         >
           Update Blog
         </button>

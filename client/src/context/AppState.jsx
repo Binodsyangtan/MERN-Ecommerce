@@ -363,6 +363,10 @@ const getAddress = async()=>{
     fetchBlogs();
   }, []);
 
+
+
+  
+
   return (
     <AppContext.Provider
       value={{

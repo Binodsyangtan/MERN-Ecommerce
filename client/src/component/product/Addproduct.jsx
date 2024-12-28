@@ -1,60 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
 import { toast, Bounce } from "react-toastify";
 
-const EditProduct = () => {
-  const { id } = useParams();
-  // console.log(id);
-  const navigate = useNavigate();
-
+function Addproduct() {
   const url = "http://localhost:8000/api";
-  const [product, setProduct] = useState({
-    title: "",
-    description: "",
-    price: "",
-    category: "",
-    quantity: "",
-    imgSrc: "",
-  });
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await axios.get(`${url}/product/${id}`);
-        // console.log("product",res.data.product);
-        const fetchedProduct = res.data.product;
-        // console.log("fetchedproduct", fetchedProduct);
-        setProduct({
-          title: fetchedProduct.title,
-          description: fetchedProduct.description,
-          price: fetchedProduct.price,
-          category: fetchedProduct.category,
-          quantity: fetchedProduct.quantity,
-          imgSrc: fetchedProduct.imgSrc,
-        });
-
-        console.log("after fetched", product);
-      } catch (error) {
-        console.error("Error fetching products details", error);
-      }
-    };
-    fetchProduct();
-  }, [id]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
-  };
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category, setCategory] = useState("");
+  const [imgSrc, setImgSrc] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`${url}/product/${id}`, product);
-      // console.log("response", response);
 
+    if (!title || !description || !price || !category || !quantity || !imgSrc) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    const productData = {
+      title,
+      description,
+      price,
+      quantity,
+      category,
+      imgSrc,
+    };
+
+    try {
+      const response = await axios.post(`${url}/product/add`, productData);
+      // console.log("addproduct",response);
       if (response.status === 200) {
-        toast.success(response.data.message || "product updated successfully!",
+        setTitle(""),
+          setImgSrc(""),
+          setCategory(""),
+          setDescription(""),
+          setQuantity("");
+        setPrice("");
+        toast.success(
+          response.data.message || "product updated successfully!",
           {
             position: "top-right",
             autoClose: 1500,
@@ -68,7 +54,6 @@ const EditProduct = () => {
           },
         );
       }
-      navigate("/admin")
     } catch (error) {
       console.error("Error updating blog:", error);
       toast.error("Failed to update blog. Please try again.", {
@@ -84,7 +69,6 @@ const EditProduct = () => {
       });
     }
   };
-
   return (
     <>
       <div className="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-lg">
@@ -102,8 +86,7 @@ const EditProduct = () => {
               type="text"
               id="title"
               name="title"
-              value={product.title}
-              onChange={handleChange}
+              onChange={(e) => setTitle(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product title"
               required
@@ -120,9 +103,8 @@ const EditProduct = () => {
             </label>
             <textarea
               id="description"
+              onChange={(e) => setDescription(e.target.value)}
               name="description"
-              value={product.description}
-              onChange={handleChange}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product description"
               rows="5"
@@ -142,8 +124,7 @@ const EditProduct = () => {
               type="number"
               id="price"
               name="price"
-              value={product.price}
-              onChange={handleChange}
+              onChange={(e) => setPrice(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product price"
               required
@@ -162,8 +143,7 @@ const EditProduct = () => {
               type="text"
               id="category"
               name="category"
-              value={product.category}
-              onChange={handleChange}
+              onChange={(e) => setCategory(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product category"
               required
@@ -182,8 +162,7 @@ const EditProduct = () => {
               type="number"
               id="quantity"
               name="quantity"
-              value={product.quantity}
-              onChange={handleChange}
+              onChange={(e) => setQuantity(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product quantity"
               required
@@ -202,8 +181,7 @@ const EditProduct = () => {
               type="text"
               id="imgSrc"
               name="imgSrc"
-              value={product.imgSrc}
-              onChange={handleChange}
+              onChange={(e) => setImgSrc(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product image URL"
               required
@@ -215,12 +193,12 @@ const EditProduct = () => {
             type="submit"
             className="w-full rounded-md bg-blue-500 px-4 py-2 font-bold text-white transition duration-300 hover:bg-blue-600"
           >
-            update Product
+            Add Product
           </button>
         </form>
       </div>
     </>
   );
-};
+}
 
-export default EditProduct;
+export default Addproduct;

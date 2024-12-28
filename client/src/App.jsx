@@ -24,6 +24,7 @@ import BlogForm from './component/blog/Blog'
 import BlogList from './component/blog/ShowBlog'
 import BlogDetails from './component/blog/BlogDetails'
 import EditBlog from './component/blog/EditBlog'
+import Addproduct from './component/product/Addproduct'
 
 
 
@@ -45,13 +46,14 @@ function App() {
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/cart/Checkout' element={<Checkout/>}/>
         <Route path='/admin' element={<Admin/>}/>
-        <Route path='/admin/editproduct' element={<EditProduct/>}/>
+        <Route path='/edit-product/:id' element={<EditProduct/>}/>
         <Route path='/toppicks' element={<TopPicks/>}/>
         <Route path='/footer' element={<Footer/>}/>
         <Route path='/blog' element={<BlogForm/>}/>
         <Route path='/bloglist' element={<BlogList/>}/>
         <Route path='/bloglist/:id' element={<BlogDetails/>}/>
         <Route path='/edit-blog/:id' element={<EditBlog/>}/>
+        <Route path='/admin/addproduct' element={<Addproduct/>}/>
        
        
         
