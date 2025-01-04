@@ -5,6 +5,7 @@ import axios from "axios";
 import AppContext from "../../context/AppContext";
 import Navbar from "../../pages/Navbar";
 import RelatedProducts from "./RelatedProducts";
+import Footer from "../../pages/Footer";
 
 function ProductDetail() {
   const { addToCart } = useContext(AppContext);
@@ -64,8 +65,8 @@ function ProductDetail() {
             <div className="rounded-lg p-6">
               <h1 className="mb-2 h-10 font-bold">{product?.title}</h1>
               <div className="mb-2 h-8">Rs. {product?.price}</div>{" "}
-              {/* Price Placeholder */}
               <div className="mb-3 h-6"> 4star | 5 customer Reviews</div>{" "}
+              <div className="mb-2 h-8"> Quantity:{product?.quantity}</div>
               {/* Rating Placeholder */}
               <div className="mb-4 h-24">{product?.description}</div>
               {/* <div className="h-10 bg-gray-300 mb-4"></div> Size Selector */}
@@ -106,9 +107,9 @@ function ProductDetail() {
         </div>
       </div>
 
-        <RelatedProducts category={product?.category}/>
-
-    </> 
+      <RelatedProducts category={product?.category} />
+      <Footer />
+    </>
   );
 }
 

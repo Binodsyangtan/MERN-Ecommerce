@@ -55,9 +55,6 @@ function Navbar() {
           <Link to="/products" className="rounded hover:bg-red-500">
             Shop
           </Link>
-          <Link to={"/bloglist"} className="rounded hover:bg-red-500">
-            Blog
-          </Link>
           {location.pathname === "/Contact" ? (
             <span className="cursor-not-allowed text-gray-500">Contact</span>
           ) : (
@@ -65,6 +62,9 @@ function Navbar() {
               Contact
             </Link>
           )}
+          <Link to={"/bloglist"} className="rounded hover:bg-red-500">
+            Blog
+          </Link>
           {/* <Link to={"/profile"}>Profile</Link> */}
           {/* {role == "admin" &&(
             

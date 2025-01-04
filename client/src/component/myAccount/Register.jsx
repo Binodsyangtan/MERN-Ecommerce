@@ -88,7 +88,7 @@ function Reg() {
                         value={formData.role}
                         onChange={handleChange}
                         className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                        placeholder="Enter your password"
+                        placeholder="Enter your role"
                         autoComplete="new-password"
                     />
                     <p className="text-sm text-gray-500 mb-4">
