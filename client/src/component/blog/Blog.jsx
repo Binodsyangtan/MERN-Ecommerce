@@ -4,7 +4,7 @@ import { toast, Bounce } from "react-toastify";
 
 const BlogPostForm = () => {
   // State to store form inputs
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");

@@ -7,7 +7,7 @@ import Footer from "../../pages/Footer";
 const BlogDetails = () => {
   const { id } = useParams();
   const [blog, setBlog] = useState(null); // State to store the blog details
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
 
   // Fetch blog details
   useEffect(() => {

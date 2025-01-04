@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast, Bounce } from "react-toastify";
 
 const EditBlog = () => {
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
   const { id } = useParams(); // Get the blog ID from the URL
   const navigate = useNavigate(); // For redirecting after updating
   const [blog, setBlog] = useState({

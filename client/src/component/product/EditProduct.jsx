@@ -8,7 +8,7 @@ const EditProduct = () => {
   // console.log(id);
   const navigate = useNavigate();
 
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
   const [product, setProduct] = useState({
     title: "",
     description: "",

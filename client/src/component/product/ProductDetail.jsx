@@ -12,7 +12,7 @@ function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState();
 
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
 
   useEffect(() => {
     const fetchProducts = async () => {

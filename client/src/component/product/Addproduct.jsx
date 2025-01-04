@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast, Bounce } from "react-toastify";
 
 function Addproduct() {
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");

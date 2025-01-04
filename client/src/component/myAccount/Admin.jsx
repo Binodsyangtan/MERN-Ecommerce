@@ -11,7 +11,7 @@ function Admin() {
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("dashboard");
   const { products, blogs } = useContext(AppContext);
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
 
   useEffect(() => {
     const fetchUsers = async () => {

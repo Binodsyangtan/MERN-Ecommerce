@@ -6,7 +6,7 @@ import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function AppState(props) {
-  const url = "http://localhost:8000/api";
+  const url = "https://mern-ecommerce-binod.onrender.com/api";
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState([]);
   // const [permisssions, setPermisssions] = useState([]);
