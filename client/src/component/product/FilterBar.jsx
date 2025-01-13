@@ -39,41 +39,38 @@ function FilterBar() {
   };
 
   return (
-    <div className="bg-[#FAF4F4] container flex items-center justify-between p-4">
+    <div className="container flex items-center justify-between bg-[#FAF4F4] p-4">
       {/* Left Section */}
       <div className="flex items-center space-x-3">
         <button
-          onClick={() => filterByCategory("table")}
+          // onClick={() => filterByCategory("table")}
           className="flex items-center space-x-1 text-gray-700 hover:text-gray-900"
         >
           <FaFilter />
           <span className="hidden md:inline">Filter</span>
         </button>
 
-        <button className="text-gray-700 hover:text-gray-900">
-          <FaThLarge />
-        </button>
-        <button className="text-gray-700 hover:text-gray-900">
-          <FaBars />
-        </button>
+        <button onClick={() =>setFilteredData(products)} className="text-gray-700 hover:text-gray-900">Default</button>
+        <button onClick={() =>filterByCategory("table")} className="text-gray-700 hover:text-gray-900">Table</button>
+        <button onClick={() =>filterByCategory("chair")} className="text-gray-700 hover:text-gray-900">Chair</button>
 
-        <span className="hidden text-gray-500 md:inline">
+        {/* <span className="hidden text-gray-500 md:inline">
           Showing 1–16 of 32 results
-        </span>
+        </span> */}
       </div>
 
       {/* Right Section */}
       <div className="flex items-center space-x-3">
-        <span className="hidden md:inline">Show</span>
+        {/* <span className="hidden md:inline">Show</span>
         <input
           type="number"
           min="1"
           max="32"
           defaultValue="16"
           className="hidden w-12 rounded border border-gray-300 p-1 text-center focus:border-gray-500 focus:outline-none md:block"
-        />
+        /> */}
 
-        <span className="hidden md:inline">Sort by</span>
+        {/* <span className="hidden md:inline">Sort by</span> */}
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}

@@ -4,6 +4,7 @@ import Navbar from "../../pages/Navbar";
 import { Link } from "react-router-dom";
 import FilterBar from "./FilterBar";
 import Footer from "../../pages/Footer";
+import PageHeader from "../PageHeader";
 
 function ShowProduct() {
   const { products, filteredData, addToCart,loading,error } = useContext(AppContext);
@@ -12,12 +13,14 @@ function ShowProduct() {
   // console.log(role);
 
 
-  if (loading) return <p className="text-center text-gray-500">Loading blogs...</p>;
+  if (loading) return <p className="text-center text-gray-500">Loading products...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
+  
 
   return (
     <>
       <Navbar />
+      <PageHeader/>
       <FilterBar />
       <div className="container mx-auto p-4">
         {/* Product grid */}

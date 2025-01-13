@@ -5,6 +5,7 @@ import { useContext } from "react";
 import AppContext from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import Footer from "../../pages/Footer";
+import PageHeader from "../PageHeader";
 
 const BlogList = () => {
   const { blogs, loading, error } = useContext(AppContext);
@@ -37,8 +38,9 @@ const BlogList = () => {
   return (
     <>
       <Navbar />
+      <PageHeader/>
       <div className="mx-auto max-w-5xl p-6">
-        <h1 className="mb-6 text-center text-2xl font-bold">Blogs</h1>
+        {/* <h1 className="mb-6 text-center text-2xl font-bold">Blogs</h1> */}
         {blogs.length === 0 ? (
           <p className="text-center text-gray-500">No blogs available.</p>
         ) : (

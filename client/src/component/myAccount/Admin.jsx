@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 function Admin() {
-  const { id } = useParams()
+  const { id } = useParams();
   const [users, setUsers] = useState([]);
   const [view, setView] = useState("dashboard");
-  const { products, blogs } = useContext(AppContext);
+  const { products, blogs, setBlogs, setProducts } = useContext(AppContext);
   const url = "https://mern-ecommerce-binod.onrender.com/api";
 
   useEffect(() => {
@@ -30,7 +30,6 @@ function Admin() {
 
     if (view === "users") {
       fetchUsers();
-      
     }
   }, [view]);
 
@@ -143,6 +142,52 @@ function Admin() {
     }
   };
 
+  const deleteProduct = async (productId) => {
+    try {
+      const api = await axios.delete(`${url}/product/${productId}`);
+      alert("are you sure you want to delelte this product");
+      setProducts(products.filter((product) => product._id !== productId)); // Remove the product from state
+      toast.success(api.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    } catch (error) {
+      console.log("Error deleting user:", error);
+    }
+  };
+
+  const deleteBlog = async (blogId) => {
+    try {
+      const api = await axios.delete(`${url}/blog/delete/${blogId}`);
+      console.log(api);
+      
+   
+      
+      // alert("are you sure you want to delete this blog");
+      setBlogs(blogs.filter((blog) => blog._id !== blogId)); //remvove blog form state
+      toast.success(api.data.message, {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    } catch (error) {
+      console.log("Error deleting user:", error);
+    }
+  };
+
   return (
     <>
       <div className="flex h-screen">
@@ -242,15 +287,16 @@ function Admin() {
           {/* Products View */}
           {view === "products" && (
             <>
-            <div className="flex justify-between">
-
-              <h1 className="mb-4 text-2xl font-semibold text-gray-800">
-                Products List
-              </h1>
-              <Link to={"/admin/addproduct"}>
-              <button className="rounded bg-green-500 p-2">Add product</button>
-              </Link>
-            </div>
+              <div className="flex justify-between">
+                <h1 className="mb-4 text-2xl font-semibold text-gray-800">
+                  Products List
+                </h1>
+                <Link to={"/admin/addproduct"}>
+                  <button className="rounded bg-green-500 p-2">
+                    Add product
+                  </button>
+                </Link>
+              </div>
 
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
@@ -276,7 +322,10 @@ function Admin() {
                       </button>
                     </Link>
 
-                    <button className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700">
+                    <button
+                      onClick={() => deleteProduct(product._id)}
+                      className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700"
+                    >
                       delete Product
                     </button>
                   </div>
@@ -319,13 +368,16 @@ function Admin() {
                         {blog.tags.join(", ") || "N/A"}
                       </p>
                       <Link to={`/edit-blog/${blog._id}`}>
-                      <button className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
-                        Edit Blog
-                      </button>
+                        <button className="mt-4 w-full rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-700">
+                          Edit Blog
+                        </button>
                       </Link>
-                      <button className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700">
-                      delete Blog
-                    </button>
+                      <button
+                        onClick={() => deleteBlog(blog._id)}
+                        className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-700"
+                      >
+                        delete Blog
+                      </button>
                     </div>
                   </div>
                 ))}

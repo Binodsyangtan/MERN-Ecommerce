@@ -83,12 +83,13 @@ const EditProduct = () => {
         transition: Bounce,
       });
     }
+   
   };
 
   return (
     <>
       <div className="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-lg">
-        <h1 className="mb-6 text-center text-2xl font-bold">Add Product</h1>
+        <h1 className="mb-6 text-center text-2xl font-bold">Edit Product</h1>
         <form onSubmit={handleSubmit}>
           {/* Title */}
           <div className="mb-4">

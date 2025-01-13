@@ -371,6 +371,7 @@ const getAddress = async()=>{
     <AppContext.Provider
       value={{
         products,
+        setProducts,
         register,
         login,
         url,
@@ -391,6 +392,7 @@ const getAddress = async()=>{
         shippingAddress,
         userAddress,
         blogs,
+        setBlogs,
         loading,
         error,
       }}

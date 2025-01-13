@@ -1,17 +1,16 @@
 import React from "react";
 import Navbar from "../../pages/Navbar";
 import Footer from "../../pages/Footer";
+import PageHeader from "../PageHeader";
 
 function Contact() {
   return (
     <>
     <Navbar/>
-      <div className="bg-white">
         {/* Page Header */}
-        <div className="py-10 text-center">
-          <h1 className="text-4xl font-bold">Contact</h1>
-          <p className="text-gray-500">Home / Contact</p>
-        </div>
+    <PageHeader/>
+      <div className="bg-white">
+       
 
         {/* Main Contact Section */}
         <div className="container mx-auto px-4 py-16 md:px-10">

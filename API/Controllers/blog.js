@@ -68,13 +68,28 @@ export const UpdateBlogById = async (req, res) => {
     const blog = await Blogs.findByIdAndUpdate(id, req.body, { new: true });
     if (!blog)
       return res.status(404).json({ success: false, message: "invalid id" });
-    res.json({success:true,message:"blog has been updated", blog})
+    res.json({ success: true, message: "blog has been updated", blog });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      success:false,
-      message:"error occured while updating the blog"
-    })
-    
+      success: false,
+      message: "error occured while updating the blog",
+    });
+  }
+};
+
+export const DeleteBlogById = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const blog = await Blogs.findByIdAndDelete(id);
+    if (!blog)
+      return res.status(404).json({ success: false, message: "invalid id" });
+    res.status(200).json({ success: true, message: "blog has been deleted", blog });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "error occured while deleting blog",
+    });
   }
 };
