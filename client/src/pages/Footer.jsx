@@ -51,7 +51,7 @@ function Footer() {
           </div>
         </div>
         <div className="mt-10 text-center text-gray-600">
-          © 2023 Maxsuel House. All rights reserved
+          © 2023 Sampanna Homes. All rights reserved
         </div>
       </footer>
     </>

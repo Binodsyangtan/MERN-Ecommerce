@@ -12,8 +12,6 @@ function Navbar() {
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const location = useLocation();
 
-  
-
   // Toggle the menu visibility
   function toggleMenu() {
     setisMenuOpen(!isMenuOpen);
@@ -30,11 +28,18 @@ function Navbar() {
     e.preventDefault();
     navigate(`/products/search/${searchTerm}`);
     setSearchTerm("");
-  };
+  }; 
 
   return (
     <>
       <nav className="container flex h-[100px] w-auto items-center justify-between content-center">
+        {/* Logo Section */}
+        <div className="h-[30px] w-auto flex items-center">
+          <Link to="/home">
+            <img src="../1.png" alt="Sofa Haven Logo" className="h-[150px] w-auto" /> {/* Increased height */}
+          </Link>
+        </div>
+
         {/* Hamburger Icon */}
         <div>
           <CiMenuBurger
@@ -48,7 +53,7 @@ function Navbar() {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden gap-3 md:flex">
+        <div className="hidden gap-3 md:flex items-center">
           <Link to="/home" className="rounded hover:bg-red-500">
             Home
           </Link>
@@ -65,14 +70,6 @@ function Navbar() {
           <Link to={"/bloglist"} className="rounded hover:bg-red-500">
             Blog
           </Link>
-          {/* <Link to={"/profile"}>Profile</Link> */}
-          {/* {role == "admin" &&(
-            
-            <Link to={'/admin'}>
-            <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
-              Admin
-            </button>
-          </Link>)} */}
         </div>
 
         {/* Search Input */}
@@ -100,7 +97,6 @@ function Navbar() {
           )}
           {isAuthenticated && (
             <>
-              {/* <CiHeart className="hidden md:flex" /> */}
               {role !== "seller" && (
                 <Link to={"/cart"}>
                   <CiShoppingCart className="hidden md:flex" />
@@ -115,13 +111,13 @@ function Navbar() {
               >
                 Logout
               </button>
-              {role == "admin" &&(
-            
-            <Link to={'/admin'}>
-            <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
-              Admin
-            </button>
-          </Link>)}
+              {role === "admin" && (
+                <Link to={'/admin'}>
+                  <button className="rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">
+                    Admin
+                  </button>
+                </Link>
+              )}
             </>
           )}
         </div>

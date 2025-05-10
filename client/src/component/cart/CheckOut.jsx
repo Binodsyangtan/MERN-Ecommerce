@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Footer from "../../pages/Footer";
-import { useContext, useState } from "react";
 import AppContext from "../../context/AppContext";
-import { useNavigate } from "react-router-dom";
-import {  toast } from "react-toastify";
+import { redirect, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import PageHeader from "../PageHeader";
+import Navbar from "../../pages/Navbar";
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { price, cart, shippingAddress, userAddress } = useContext(AppContext);
+
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -18,17 +20,18 @@ const Checkout = () => {
     phoneNumber: "",
   });
 
+  const [paymentMethod, setPaymentMethod] = useState("");
+
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const { fullName, address, city, state, country, pincode, phoneNumber } =
-    formData;
+  const { fullName, address, city, state, country, pincode, phoneNumber } = formData;
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log(formData);
+
     if (
       !fullName ||
       !address ||
@@ -38,7 +41,7 @@ const Checkout = () => {
       !pincode ||
       !phoneNumber
     ) {
-      toast.error("Please enter all input field");
+      toast.error("Please enter all input fields");
       return;
     }
 
@@ -49,53 +52,60 @@ const Checkout = () => {
       state,
       country,
       pincode,
-      phoneNumber,
+      phoneNumber
     );
-    // console.log("addres added", result);
 
-    //if i want to add navigate then yo ma lekhne aailey lai yesai rakhya xu
     if (result.success) {
       navigate("/cart/checkout");
     }
 
-    //submit vyasi khali garnalai yo use gareko
-    setFormData(
-      {
-        fullName: "",
-        address: "",
-        city: "",
-        state: "",
-        country: "",
-        pincode: "",
-        phoneNumber: "",
-      }
-    )
+    setFormData({
+      fullName: "",
+      address: "",
+      city: "",
+      state: "",
+      country: "",
+      pincode: "",
+      phoneNumber: "",
+    });
+  };
+
+  const handlePlaceOrder = () => {
+    if (paymentMethod === "cod") {
+      alert("Cash on Delivery selected. Your order has been placed!");
+      
+    } else if (paymentMethod === "bank") {
+      alert("Bank Transfer selected. Please proceed with payment.");
+    } else {
+      toast.error("Please select a payment method");
+    }
   };
 
   return (
     <>
       <div className="p-8 font-sans">
         {/* Header */}
-        <div className="mb-10 text-center">
+        {/* <div className="mb-10 text-center">
           <h2 className="text-3xl font-bold">Checkout</h2>
           <p className="text-gray-500">Home / Checkout</p>
-        </div>
+        </div> */}
+        <Navbar/>
+         <PageHeader/>
+         <br/>
 
         <div className="flex flex-col gap-10 lg:flex-row">
           {/* Billing Details */}
           <div className="flex-1">
             <h3 className="mb-6 text-xl font-bold">Billing Details</h3>
             <form className="space-y-6" onSubmit={submitHandler}>
-              <div className="">
-                <input
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={onChangeHandler}
-                  type="text"
-                  placeholder="Full Name"
-                  className="w-full rounded border border-gray-300 p-3"
-                />
-              </div>
+              <input
+                name="fullName"
+                value={formData.fullName}
+                onChange={onChangeHandler}
+                type="text"
+                placeholder="Full Name"
+                className="w-full rounded border border-gray-300 p-3"
+              />
               <input
                 name="country"
                 value={formData.country}
@@ -104,17 +114,12 @@ const Checkout = () => {
                 placeholder="Country"
                 className="w-full rounded border border-gray-300 p-3"
               />
-              {/* <select className="w-full rounded border border-gray-300 p-3">
-                <option value="sri-lanka">KATHMANDU</option>
-                <option value="sri-lanka">LALITPUT</option>
-                <option value="sri-lanka">BHAKTAPUR</option>
-              </select> */}
               <input
                 name="state"
                 value={formData.state}
                 onChange={onChangeHandler}
                 type="text"
-                placeholder="state"
+                placeholder="State"
                 className="w-full rounded border border-gray-300 p-3"
               />
               <input
@@ -125,10 +130,6 @@ const Checkout = () => {
                 placeholder="Town / City"
                 className="w-full rounded border border-gray-300 p-3"
               />
-              {/* <select className="w-full rounded border border-gray-300 p-3">
-                <option value="western-province">Western Province</option>
-               
-              </select> */}
               <input
                 name="pincode"
                 value={formData.pincode}
@@ -150,7 +151,7 @@ const Checkout = () => {
                 value={formData.address}
                 onChange={onChangeHandler}
                 type="text"
-                placeholder=" Address"
+                placeholder="Address"
                 className="w-full rounded border border-gray-300 p-3"
               />
               <button
@@ -160,9 +161,9 @@ const Checkout = () => {
                 Submit
               </button>
             </form>
+
             {userAddress && (
               <div className="d-grid mt-3">
-                {/* hera we can use navigate when we click old address button */}
                 <button className="btn btn-warning w-full rounded bg-green-500 p-2 text-white">
                   Use old Address
                 </button>
@@ -192,11 +193,23 @@ const Checkout = () => {
             {/* Payment Options */}
             <div>
               <label className="mb-4 flex items-center space-x-2">
-                <input type="radio" name="payment" className="h-4 w-4" />
+                <input
+                  type="radio"
+                  name="payment"
+                  value="bank"
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="h-4 w-4"
+                />
                 <span>Direct Bank Transfer</span>
               </label>
               <label className="mb-4 flex items-center space-x-2">
-                <input type="radio" name="payment" className="h-4 w-4" />
+                <input
+                  type="radio"
+                  name="payment"
+                  value="cod"
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="h-4 w-4"
+                />
                 <span>Cash on Delivery</span>
               </label>
               <p className="mb-6 text-sm text-gray-500">
@@ -204,7 +217,11 @@ const Checkout = () => {
                 throughout this website, to manage access to your account, and
                 for other purposes described in our Privacy Policy.
               </p>
-              <button className="w-full rounded border-[2px] border-black bg-transparent p-3 text-[#000000] hover:bg-gray-200">
+              <button
+                type="button"
+                onClick={handlePlaceOrder}
+                className="w-full rounded border-[2px] border-black bg-transparent p-3 text-[#000000] hover:bg-gray-200"
+              >
                 Place Order
               </button>
             </div>
