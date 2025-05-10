@@ -1,6 +1,6 @@
 # 🏠 Sampanna Homes
 
-**Live Demo**: [https://sampannahouse.netlify.app](https://sampannahouse.netlify.app)
+**Live Demo**: [https://sampanna-house.netlify.app](https://sampanna-house.netlify.app)
 
 **Sampanna Homes** is a modern eCommerce platform built to showcase and sell premium furniture. It provides a smooth shopping experience with responsive design, clean user interface, and role-based admin control. The platform includes dynamic product pages, a blog section, and secure authentication.
 
