@@ -1,33 +1,47 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Navbar from "../../pages/Navbar";
 import AppContext from "../../context/AppContext";
 import { Link } from "react-router-dom";
+import { FiTrash2, FiPlus, FiMinus } from "react-icons/fi";
+import Footer from "../../pages/Footer";
 
 const Cart = () => {
-  const { cart, decreaseQuantity, addToCart, removeFromCart,qty,price } =
+  const { cart, decreaseQuantity, addToCart, removeFromCart, price } =
     useContext(AppContext);
 
- 
-
   return (
-    <>
+    <div className="min-h-screen bg-gray-50 font-sans flex flex-col">
       <Navbar />
-      <div className="min-h-screen bg-gray-50 font-sans">
-        {/* Header Section */}
-        <header className="bg-white py-6 shadow-md">
-          <div className="container mx-auto px-4">
-            <h1 className="text-2xl font-bold">Cart</h1>
-            <p className="text-gray-600">Home &gt; Cart</p>
-          </div>
-        </header>
+      
+      {/* Header Section */}
+      {/* <header className="bg-[#FBEBB5]">
+        <div className="container mx-auto px-4 py-11 md:py-20 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 animate-float">Your Shopping Cart</h1>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Great picks! Secure them now before someone else does.
+          </p>
+        </div>
+        <div className="h-16 bg-gradient-to-b from-transparent to-white pointer-events-none" />
+      </header> */}
+            <header className="bg-[#FBEBB5]">
+        <div className="container mx-auto px-4 py-10 md:py-12 text-center">
+          <h1 className="mb-3 text-3xl font-bold md:text-4xl animate-float">
+            Your Shopping Cart
+          </h1>
+          <p className="mx-auto max-w-lg text-gray-600">
+            Great picks! Secure them now before someone else does.
+          </p>
+        </div>
+      </header>
 
-        {/* Main Section */}
-        <main className="container mx-auto mt-6 px-4">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-            {/* Cart Table */}
-
-            <div className="col-span-2 rounded-lg bg-white p-6 shadow-sm">
-              <div className="grid grid-cols-6 border-b pb-4 font-bold text-gray-700">
+      {/* Main Content */}
+      <main className="flex-grow container mx-auto px-4 py-8">
+        {cart?.items?.length > 0 ? (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Cart Items Section */}
+            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
+              {/* Desktop Table Headers */}
+              <div className="hidden md:grid grid-cols-6 gap-4 border-b pb-4 font-medium text-gray-700">
                 <div>Product</div>
                 <div>Title</div>
                 <div>Price</div>
@@ -35,100 +49,133 @@ const Cart = () => {
                 <div>Subtotal</div>
                 <div></div>
               </div>
-              {/* Product Row */}
-              {cart?.items?.map((product) => (
-                <div
-                  key={product._id}
-                  className="mt-4 grid grid-cols-6 items-center border-b pb-4"
-                >
-                  <div>
-                    <img
-                      src={product.imgSrc}
-                      alt=""
-                      style={{ width: "100px", height: "100px" }}
-                    />
-                  </div>
-                  <div>{product.title}</div>
-                  <div>{product.price}</div>
-                  <div>
-                    <button
-                      className="mr-2"
-                      onClick={() => decreaseQuantity(product?.productId, 1)}
-                    >
-                      -
-                    </button>
-                    {product.quantity}
-                    <button
-                      onClick={() =>
-                        addToCart(
-                          product?.productId,
+              
+              {/* Cart Items List */}
+              <div className="divide-y">
+                {cart.items.map((product) => (
+                  <div key={product._id} className="py-4 grid grid-cols-2 md:grid-cols-6 gap-4 items-center">
+                    {/* Product Image */}
+                    <div className="flex justify-center">
+                      <img
+                        src={product.imgSrc}
+                        alt={product.title}
+                        className="h-24 w-24 object-contain"
+                      />
+                    </div>
+                    
+                    {/* Product Title */}
+                    <div className="text-sm font-medium text-gray-800 md:text-base">
+                      {product.title}
+                    </div>
+                    
+                    {/* Price */}
+                    <div className="text-gray-600">Rs. {product.price}</div>
+                    
+                    {/* Quantity Controls */}
+                    <div className="flex items-center justify-center space-x-2">
+                      <button
+                        onClick={() => decreaseQuantity(product.productId, 1)}
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 transition-colors"
+                        aria-label="Decrease quantity"
+                      >
+                        <FiMinus size={14} />
+                      </button>
+                      <span className="w-8 text-center">{product.quantity}</span>
+                      <button
+                        onClick={() => addToCart(
+                          product.productId,
                           product.title,
                           product.price,
                           1,
-                          product.imgSrc,
-                        )
-                      }
-                    >
-                      +
-                    </button>
+                          product.imgSrc
+                        )}
+                        className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-gray-600 hover:bg-gray-300 transition-colors"
+                        aria-label="Increase quantity"
+                      >
+                        <FiPlus size={14} />
+                      </button>
+                    </div>
+                    
+                    {/* Subtotal */}
+                    <div className="font-medium">
+                      Rs. {(product.price * product.quantity).toFixed(2)}
+                    </div>
+                    
+                    {/* Remove Button */}
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to remove this item from your cart?")) {
+                            removeFromCart(product.productId);
+                          }
+                        }}
+                        className="p-2 text-gray-500 hover:text-red-500 transition-colors"
+                        aria-label="Remove item"
+                        title="Remove item"
+                      >
+                        <FiTrash2 size={18} />
+                      </button>
+                    </div>
                   </div>
-                  <div>{price}</div>
-                  <button
-                    onClick={() => {
-                      if (confirm("Are you sure, want to remove form cart")) {
-                        removeFromCart(product?.productId);
-                      }
-                    }}
-                    className="rounded-md bg-red-200 p-2 text-lg text-white hover:bg-red-500"
-                  >
-                    remove
-                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Order Summary Section */}
+            <div className="flex flex-col bg-[#FFF9E5] rounded-lg shadow-sm p-6 h-fit sticky top-6">
+              <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between border-b pb-2">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span className="font-medium">Rs. {price}</span>
                 </div>
-              ))}
-            </div>
-
-            {/* Cart Totals Section */}
-            <div className="rounded-lg bg-[#FFF9E5] p-6 shadow-sm">
-              <h2 className="text-lg font-bold">Cart Totals</h2>
-              <div className="mt-4 flex justify-between">
-                <span>Subtotal</span>
-                <span>Rs. {price}</span>
+                <div className="flex justify-between border-b pb-2">
+                  <span className="text-gray-600">Shipping</span>
+                  <span className="font-medium">Free</span>
+                </div>
+                <div className="flex justify-between pt-2 text-lg font-bold">
+                  <span>Total</span>
+                  <span>Rs. {price}</span>
+                </div>
               </div>
-              <div className="mt-4 flex justify-between font-bold">
-                <span>Total</span>
-                <span>Rs. {price}</span>
+              
+              <div className="space-y-4">
+                <Link 
+                  to="/cart/Checkout" 
+                  className="block w-full rounded-lg bg-orange-500 py-3 text-center font-medium text-white hover:bg-orange-600 transition-colors"
+                >
+                  Proceed to Checkout
+                </Link>
+                <Link 
+                  to="/products" 
+                  className="block w-full rounded-lg border border-gray-300 py-2 text-center font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                >
+                  Continue Shopping
+                </Link>
               </div>
-              <Link to={"Checkout"}>
-                <button className="mt-6 w-full rounded-lg bg-transparent py-2 text-[#000000] shadow hover:bg-orange-100">
-                  Check Out
-                </button>
-              </Link>
             </div>
           </div>
-        </main>
+        ) : (
+          /* Empty Cart State */
+          <div className="bg-white rounded-lg shadow-sm py-16 flex flex-col items-center justify-center">
+            <div className="text-5xl text-gray-300 mb-6">🛒</div>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
+            <p className="text-gray-600 mb-6 max-w-md text-center">
+              Looks like you haven't added any items to your cart yet.
+            </p>
+            <Link
+              to="/"
+              className="rounded-lg bg-orange-500 px-6 py-2 font-medium text-white hover:bg-orange-600 transition-colors"
+            >
+              Start Shopping
+            </Link>
+          </div>
+        )}
+      </main>
 
-        {/* Footer Section */}
-        <footer className="mt-12 bg-gray-100 py-12">
-          <div className="container mx-auto grid grid-cols-3 gap-6 px-4">
-            <div className="text-center">
-              <h3 className="font-bold">Free Delivery</h3>
-              <p>For all orders over $50, consectetur adipiscing elit.</p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-bold">90 Days Return</h3>
-              <p>If goods have problems, consectetur adipiscing elit.</p>
-            </div>
-            <div className="text-center">
-              <h3 className="font-bold">Secure Payment</h3>
-              <p>100% secure payment, consectetur adipiscing elit.</p>
-            </div>
-          </div>
-          <div className="mt-6 border-t pt-6 text-center">
-            <p>&copy; 2022 Muebbl House. All rights reserved.</p>
-          </div>
-        </footer>
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

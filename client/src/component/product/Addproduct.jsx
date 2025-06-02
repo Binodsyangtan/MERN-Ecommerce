@@ -2,8 +2,10 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { toast, Bounce } from "react-toastify";
+import { useNavigate } from "react-router-dom"; // Added for navigation
 
 function Addproduct() {
+  const navigate = useNavigate(); // Initialize navigate function
   const url = "https://mern-ecommerce-binod.onrender.com/api";
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -11,12 +13,25 @@ function Addproduct() {
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("");
   const [imgSrc, setImgSrc] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // Added for loading state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Set loading state
 
     if (!title || !description || !price || !category || !quantity || !imgSrc) {
-      alert("Please fill in all required fields.");
+      toast.error("Please fill in all required fields.", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+      setIsSubmitting(false);
       return;
     }
 
@@ -31,16 +46,10 @@ function Addproduct() {
 
     try {
       const response = await axios.post(`${url}/product/add`, productData);
-      // console.log("addproduct",response);
+      
       if (response.status === 200) {
-        setTitle(""),
-          setImgSrc(""),
-          setCategory(""),
-          setDescription(""),
-          setQuantity("");
-        setPrice("");
         toast.success(
-          response.data.message || "product updated successfully!",
+          response.data.message || "Product added successfully!",
           {
             position: "top-right",
             autoClose: 1500,
@@ -51,12 +60,25 @@ function Addproduct() {
             progress: undefined,
             theme: "dark",
             transition: Bounce,
-          },
+          }
         );
+        
+        // Reset form
+        setTitle("");
+        setImgSrc("");
+        setCategory("");
+        setDescription("");
+        setQuantity("");
+        setPrice("");
+        
+        // Navigate to admin products section after toast completes
+        setTimeout(() => {
+          navigate("/admin"); // Adjust this path to your admin products route
+        }, 1500);
       }
     } catch (error) {
-      console.error("Error updating blog:", error);
-      toast.error("Failed to update blog. Please try again.", {
+      console.error("Error adding product:", error);
+      toast.error(error.response?.data?.message || "Failed to add product. Please try again.", {
         position: "top-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -67,8 +89,11 @@ function Addproduct() {
         theme: "dark",
         transition: Bounce,
       });
+    } finally {
+      setIsSubmitting(false); // Reset loading state
     }
   };
+
   return (
     <>
       <div className="mx-auto max-w-4xl rounded-lg bg-white p-6 shadow-lg">
@@ -86,6 +111,7 @@ function Addproduct() {
               type="text"
               id="title"
               name="title"
+              value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product title"
@@ -103,6 +129,7 @@ function Addproduct() {
             </label>
             <textarea
               id="description"
+              value={description}
               onChange={(e) => setDescription(e.target.value)}
               name="description"
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
@@ -124,6 +151,7 @@ function Addproduct() {
               type="number"
               id="price"
               name="price"
+              value={price}
               onChange={(e) => setPrice(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product price"
@@ -143,6 +171,7 @@ function Addproduct() {
               type="text"
               id="category"
               name="category"
+              value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product category"
@@ -162,6 +191,7 @@ function Addproduct() {
               type="number"
               id="quantity"
               name="quantity"
+              value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
               placeholder="Enter product quantity"
@@ -181,9 +211,10 @@ function Addproduct() {
               type="text"
               id="imgSrc"
               name="imgSrc"
+              value={imgSrc}
               onChange={(e) => setImgSrc(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-300 p-2"
-              placeholder="Enter product image URL"
+              placeholder="Enter product image URL ( for now i am using imgUrl , i will upadate to upload file later , also add multer to handle file coz nodejs le hanlde garna sakaina file  "
               required
             />
           </div>
@@ -191,9 +222,12 @@ function Addproduct() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full rounded-md bg-blue-500 px-4 py-2 font-bold text-white transition duration-300 hover:bg-blue-600"
+            disabled={isSubmitting}
+            className={`w-full rounded-md px-4 py-2 font-bold text-white transition duration-300 ${
+              isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'
+            }`}
           >
-            Add Product
+            {isSubmitting ? 'Adding Product...' : 'Add Product'}
           </button>
         </form>
       </div>

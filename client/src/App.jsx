@@ -25,6 +25,7 @@ import BlogList from './component/blog/ShowBlog'
 import BlogDetails from './component/blog/BlogDetails'
 import EditBlog from './component/blog/EditBlog'
 import Addproduct from './component/product/Addproduct'
+import Reg from './component/myAccount/register'
 
 
 
@@ -36,11 +37,12 @@ function App() {
 
     <ToastContainer/>  {/* yesari rakhe jata ni call garna millne hunxa so yeha rakheko  */}
       <Routes>
-        <Route path='/home' element ={<Home/>}/>
+        <Route path='/' element ={<Home/>}/>
         <Route path='/products' element={<ShowProduct/>}/>
         <Route path='/products/:id' element={<ProductDetail/>}/>
         <Route path='/products/search/:term' element={<SearchProducts/>}/>
-        <Route path='/' element={<MyAccount/>}/>
+        <Route path='/account' element={<MyAccount/>}/>
+        <Route path='/register' element={<Reg/>}/>
         <Route path='/Contact' element={<Contact/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/cart' element={<Cart/>}/>
@@ -49,7 +51,7 @@ function App() {
         <Route path='/edit-product/:id' element={<EditProduct/>}/>
         <Route path='/toppicks' element={<TopPicks/>}/>
         <Route path='/footer' element={<Footer/>}/>
-        <Route path='/blog' element={<BlogForm/>}/>
+        <Route path='/admin/addblog' element={<BlogForm/>}/>
         <Route path='/bloglist' element={<BlogList/>}/>
         <Route path='/bloglist/:id' element={<BlogDetails/>}/>
         <Route path='/edit-blog/:id' element={<EditBlog/>}/>

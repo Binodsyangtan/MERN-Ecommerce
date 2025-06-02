@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast, Bounce } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const BlogPostForm = () => {
   // State to store form inputs
@@ -11,7 +12,7 @@ const BlogPostForm = () => {
   const [tags, setTags] = useState("");
   const [category, setCategory] = useState("");
   const [imgSrc, setImgSrc] = useState("");
-
+   const navigate = useNavigate()
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +47,10 @@ const BlogPostForm = () => {
         setCategory("");
         setImgSrc("");
       }
+      setTimeout(() => {
+        navigate("/admin")
+        
+      }, 1500);
     } catch (error) {
       console.error("Error creating blog post:", error);
       alert("There was an error creating the blog post.");

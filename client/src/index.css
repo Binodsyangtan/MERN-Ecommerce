@@ -1,16 +1,26 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
 
-
-@layer components{
-    .container {
-        @apply mx-auto max-w-full   px-3 sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px];
-      }
-   
+@layer components {
+  .container {
+    @apply mx-auto max-w-full px-3 sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1140px];
+  }
 }
-
 
 /* *{
     background-color: rgba(0, 0, 0,0.05 );
 } */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
