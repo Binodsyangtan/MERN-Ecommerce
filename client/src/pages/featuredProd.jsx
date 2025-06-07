@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 function FeaturedProd() {
   const products = [
@@ -7,34 +8,70 @@ function FeaturedProd() {
       id: 1,
       name: "Modern Side Table",
       image: "../slide1.png",
-      price: "$149.99",
+      price: "Rs 20000",
       category: "Living Room"
     },
     {
       id: 2,
       name: "Luxury Sofa",
       image: "../slide3.png",
-      price: "$899.99",
+      price: "Rs 15000",
       category: "Living Room"
     },
     {
       id: 3,
       name: "Coffee Table",
       image: "../slide2.png",
-      price: "$249.99",
+      price: "Rs 12000",
       category: "Living Room"
     },
     {
       id: 4,
       name: "Accent Chair",
-      image: "../slide4.png",
-      price: "$349.99",
+      image: "../chai.png",
+      price: "Rs 1300",
       category: "Living Room"
     }
   ];
 
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        when: "beforeChildren"
+      }
+    }
+  };
+
+  const item = (index) => ({
+    hidden: { 
+      opacity: 0, 
+      y: 40,
+      x: index % 2 === 0 ? -100 : 100
+    },
+    show: {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        type: "spring",
+        stiffness: 100,
+        damping: 10
+      },
+      exit: {
+        opacity: 0,
+        y: 20,
+        transition: {duration: 0.3}
+      }
+    }
+  });
+
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-[#FAF4F4]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Featured Collection</h2>
@@ -43,10 +80,17 @@ function FeaturedProd() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
-            <div 
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, margin: "-50px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        >
+          {products.map((product, index) => (
+            <motion.div
               key={product.id}
+              variants={item(index)}
               className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group"
             >
               <div className="relative overflow-hidden h-64">
@@ -63,25 +107,16 @@ function FeaturedProd() {
                 <h3 className="text-xl font-semibold text-gray-800 mt-1 mb-2">{product.name}</h3>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold text-gray-900">{product.price}</span>
-                  <Link
-                    to={`/products/${product.id}`}
-                    className="text-amber-600 hover:text-amber-700 font-medium flex items-center"
-                  >
-                    View Details
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="text-center mt-12">
           <Link
             to="/products"
-            className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-300"
+            className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-300 hover:scale-105 transform"
           >
             View All Products
           </Link>

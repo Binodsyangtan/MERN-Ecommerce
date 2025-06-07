@@ -1,13 +1,58 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Navbar from "../../pages/Navbar";
 import Footer from "../../pages/Footer";
+import emailjs from "@emailjs/browser";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Contact() {
+  const form = useRef(); 
+  const [isSent, setIsSent] = useState(false);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_78ae49u",        // Your EmailJS service ID
+        "template_duq5oue",       // Your EmailJS template ID
+        form.current,             // Correct use of form ref
+        "I89Ie1HHYVBtU8JW9"       // Your EmailJS public key
+      )
+      .then(
+        () => {
+          setIsSent(true);
+          form.current.reset(); //  Reset form fields after sending
+          toast.success("Message sent successfully! ✅", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+        },
+        (error) => {
+          console.error("Error sending message:", error);
+          toast.error("Failed to send message. Please try again.", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+        }
+      );
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      {/* Simple header without fade effect */}
+
+      {/* Header */}
       <header className="bg-[#FBEBB5]">
         <div className="container mx-auto px-4 py-10 md:py-12 text-center">
           <h1 className="mb-3 text-3xl font-bold md:text-4xl animate-float">
@@ -19,75 +64,53 @@ function Contact() {
         </div>
       </header>
 
-      {/* Contact Form Section (unchanged) */}
+      {/* Contact Form */}
       <main className="flex-grow bg-[#FAF4F4] py-12">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg bg-white p-6 shadow-md sm:p-8">
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="mt-1 block w-full rounded-md border border-gray-300 p-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    placeholder="Ram"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="mt-1 block w-full rounded-md border border-gray-300 p-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                    placeholder="your@email.com"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                  placeholder="How can we help?"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                  placeholder="Tell us more about your inquiry..."
-                  required
-                />
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="w-full rounded-md bg-indigo-600 px-4 py-3 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
-                >
-                  Send Message
-                </button>
-              </div>
+            <form
+              ref={form} // ✅ Attached form ref
+              onSubmit={sendEmail}
+              className="mt-4 flex flex-col space-y-4"
+            >
+              <input
+                type="email"
+                name="user_email"
+                placeholder="Your Email"
+                required
+                className="w-full p-3 rounded-md bg-transparent text-white border border-gray-600 focus:outline-none focus:border-amber-500"
+              />
+              <input
+                type="text"
+                name="user_name"
+                placeholder="Your Name"
+                required
+                className="w-full p-3 rounded-md  text-white border border-gray-600 focus:outline-none focus:border-amber-500"
+              />
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                required
+                className="w-full p-3 rounded-md  text-white border border-gray-600 focus:outline-none focus:border-amber-500"
+              />
+              <textarea
+                name="message"
+                placeholder="Message"
+                rows="4"
+                required
+                className="w-full p-3 rounded-md text-white border border-gray-600 focus:outline-none focus:border-amber-500"
+              />
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r bg-amber-600  py-3  font-semibold rounded-md hover:opacity-60 transition"
+              >
+                Send
+              </button>
             </form>
           </div>
 
-          {/* Contact Alternatives (unchanged) */}
+          {/* Alternative Contact Info */}
           <div className="mt-12 text-center">
             <h3 className="text-lg font-medium text-gray-900">
               Prefer other ways to reach us?
@@ -112,6 +135,7 @@ function Contact() {
         </div>
       </main>
 
+      <ToastContainer /> {/* ✅ Toasts will appear here */}
       <Footer />
     </div>
   );

@@ -76,6 +76,7 @@ function ShowProduct() {
       <main className="flex-grow container mx-auto px-4 py-12 md:py-16">
         {filteredData?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            
             {filteredData.map((product) => (
               <div
                 key={product._id}
@@ -94,6 +95,7 @@ function ShowProduct() {
                   
                   {/* Product Info */}
                   <div className="p-6">
+                    <span className="text-sm text-amber-600 font-medium">{product.category}</span>
                     <h2 className="text-xl font-bold text-gray-800 mb-1">{product.title}</h2>
                     <p className="text-lg font-semibold text-amber-600 mb-4">Rs. {product.price}</p>
                   </div>

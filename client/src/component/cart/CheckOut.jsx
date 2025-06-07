@@ -66,7 +66,7 @@ const Checkout = () => {
       {/* Header */}
       <header className="bg-[#FBEBB5] py-10 md:py-12">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="mb-3 text-3xl font-bold md:text-4xl">Checkout</h1>
+          <h1 className="mb-3 text-3xl font-bold md:text-4xl animate-bounce">Checkout</h1>
           <p className="mx-auto max-w-lg text-gray-600">
             Complete your purchase with secure checkout
           </p>

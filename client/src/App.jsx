@@ -26,6 +26,18 @@ import BlogDetails from './component/blog/BlogDetails'
 import EditBlog from './component/blog/EditBlog'
 import Addproduct from './component/product/Addproduct'
 import Reg from './component/myAccount/register'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+
+function ScrollToTop(){
+  const {pathname} = useLocation();
+  useEffect(() => {
+  window.scrollTo(0, 0); // Reset scroll to top
+}, [pathname]);
+  return null; //this component doesnot render anything
+}
+
+
 
 
 
@@ -33,8 +45,9 @@ import Reg from './component/myAccount/register'
 function App() {
   // const data = useContext(AppContext)
   return (
-   <Router>
+    <Router>
 
+     <ScrollToTop/>
     <ToastContainer/>  {/* yesari rakhe jata ni call garna millne hunxa so yeha rakheko  */}
       <Routes>
         <Route path='/' element ={<Home/>}/>

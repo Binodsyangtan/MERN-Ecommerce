@@ -51,7 +51,7 @@ const BlogList = () => {
             <header className="bg-[#FBEBB5]">
         <div className="container mx-auto px-4 py-10 md:py-12 text-center">
           <h1 className="mb-3 text-3xl font-bold md:text-4xl animate-float">
-            Our Blog
+            Our Blogs
           </h1>
           <p className="mx-auto max-w-lg text-gray-600">
             Discover insights, trends, and inspiration from out design experts

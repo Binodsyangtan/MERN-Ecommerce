@@ -68,7 +68,7 @@ function FilterBar() {
                 : "bg-white text-gray-700 hover:bg-gray-100"
             }`}
           >
-            Tables
+            Table
           </button>
           <button
             onClick={() => filterByCategory("chair")}
@@ -78,9 +78,39 @@ function FilterBar() {
                 : "bg-white text-gray-700 hover:bg-gray-100"
             }`}
           >
-            Chairs
+            Chair
           </button>
-          {/* Add more categories as needed */}
+          <button
+            onClick={() => filterByCategory("sofa")}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              activeCategory === "sofa"
+                ? "bg-amber-600 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            Sofa
+          </button>
+          <button
+            onClick={() => filterByCategory("bed")}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              activeCategory === "bed"
+                ? "bg-amber-600 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            Bed
+          </button>
+          <button
+            onClick={() => filterByCategory("dining")}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              activeCategory === "dining"
+                ? "bg-amber-600 text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
+            }`}
+          >
+            Dining
+          </button>
+          
         </div>
 
         {/* Sort Dropdown */}
