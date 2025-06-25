@@ -28,6 +28,8 @@ import Addproduct from './component/product/Addproduct'
 import Reg from './component/myAccount/register'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+// import KhaltiCheckout from 'khalti-checkout-web'
+import KhaltiPayment from './component/payment/KhaltiPayment'
 
 function ScrollToTop(){
   const {pathname} = useLocation();
@@ -69,6 +71,8 @@ function App() {
         <Route path='/bloglist/:id' element={<BlogDetails/>}/>
         <Route path='/edit-blog/:id' element={<EditBlog/>}/>
         <Route path='/admin/addproduct' element={<Addproduct/>}/>
+        <Route path='/payment' element={<KhaltiPayment/>}/>
+
        
        
         

@@ -67,17 +67,17 @@ function Navbar() {
   };
 
   return (
-    <header className={`sticky top-0 z-50 bg-white shadow-md transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'}`}>
+    <header className={`sticky top-0 z-50 bg-white shadow-md transition-all duration-300 ${isScrolled ? 'py-0' : 'py-1'}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           {/* Logo and Navigation */}
           <div className="flex items-center space-x-10">
-            {/* Logo */}
+            {/* Logo - Made Bigger */}
             <Link to="/" className="flex items-center">
               <img 
                 src="/logo.png" 
                 alt="Sofa Haven Logo" 
-                className="h-28 w-auto transition-all duration-300 hover:scale-105 md:h-32"
+                className="h-24 w-auto transition-all duration-300 hover:scale-105 md:h-32"
               />
             </Link>
 
@@ -169,7 +169,7 @@ function Navbar() {
                     {isProfileOpen && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                         <Link
-                          to="/account"
+                          to="/profile"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500"
                           onClick={() => setIsProfileOpen(false)}
                         >
@@ -220,7 +220,7 @@ function Navbar() {
               <img 
                 src="../logo.png" 
                 alt="Sofa Haven Logo" 
-                className="h-20 w-auto" 
+                className="h-24 w-auto" 
               />
             </Link>
           </div>

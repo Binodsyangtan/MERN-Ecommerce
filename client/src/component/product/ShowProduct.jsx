@@ -1,46 +1,85 @@
 import React, { useContext } from "react";
+import { motion } from "framer-motion";
 import AppContext from "../../context/AppContext";
 import Navbar from "../../pages/Navbar";
 import { Link } from "react-router-dom";
 import FilterBar from "./FilterBar";
 import Footer from "../../pages/Footer";
-import PageHeader from "../PageHeader";
 
 function ShowProduct() {
   const { filteredData, addToCart, loading, error } = useContext(AppContext);
   const permissions = JSON.parse(localStorage.getItem("permissions"));
   const role = JSON.parse(localStorage.getItem("role"));
 
-  // Loading state
+  // Slower animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3, // Increased stagger time
+        delayChildren: 0.4,   // Added initial delay
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.8,      // Slower duration
+        ease: [0.16, 0.77, 0.47, 0.97] // Smooth easing curve
+      } 
+    }
+  };
+
   if (loading) return (
     <div className="min-h-screen bg-[#FAF4F4]">
       <Navbar />
       <div className="container mx-auto px-4 py-32 text-center">
-        <div className="inline-block h-12 w-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-lg text-gray-600">Loading our finest collection...</p>
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          className="inline-block h-12 w-12 border-4 border-amber-500 border-t-transparent rounded-full"
+        />
+        <p className="mt-4 text-lg text-gray-600">Loading products...</p>
       </div>
       <Footer />
     </div>
   );
 
-  // Error state
   if (error) return (
     <div className="min-h-screen bg-[#FAF4F4]">
       <Navbar />
       <div className="container mx-auto px-4 py-32 text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full">
+        <motion.div
+          initial={{ scale: 0.8 }}
+          animate={{ scale: 1 }}
+          className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full"
+        >
           <svg className="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
-        </div>
-        <h3 className="mt-4 text-2xl font-bold text-gray-800">Oops! Something went wrong</h3>
-        <p className="mt-2 text-gray-600 max-w-md mx-auto">Failed to load products</p>
-        <button 
+        </motion.div>
+        <motion.h3 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-4 text-xl font-medium text-gray-800"
+        >
+          Something went wrong
+        </motion.h3>
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => window.location.reload()}
-          className="mt-6 px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+          className="mt-6 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
         >
           Try Again
-        </button>
+        </motion.button>
       </div>
       <Footer />
     </div>
@@ -50,91 +89,126 @@ function ShowProduct() {
     <div className="min-h-screen flex flex-col bg-[#FAF4F4]">
       <Navbar />
       
-      {/* Shop Header */}
-      {/* <div className="bg-[#FBEBB5] py-12 md:py-20">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-center mb-4 object-contain animate-float">Our Collection</h1>
-          <p className="text-gray-600 text-center max-w-2xl mx-auto">
-            Discover handcrafted pieces that blend timeless elegance with modern functionality
-          </p>
-        </div>
-      </div> */}
-            <header className="bg-[#FBEBB5]">
-        <div className="container mx-auto px-4 py-10 md:py-12 text-center">
-          <h1 className="mb-3 text-3xl font-bold md:text-4xl animate-float">
+      <motion.header 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="bg-[#FBEBB5]"
+      >
+        <div className="container mx-auto px-4 py-10 text-center">
+          <motion.h1 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl font-bold text-gray-800 mb-2 animate-float"
+          >
             Our Collection
-          </h1>
-          <p className="mx-auto max-w-lg text-gray-600">
-             Discover handcrafted pieces that blend timeless elegance with modern functionality
-          </p>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-gray-600 max-w-md mx-auto"
+          >
+            Discover handcrafted pieces that blend elegance with functionality
+          </motion.p>
         </div>
-      </header>
+      </motion.header>
 
       <FilterBar />
 
-      {/* Product Grid */}
-      <main className="flex-grow container mx-auto px-4 py-12 md:py-16">
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-12">
         {filteredData?.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
             {filteredData.map((product) => (
-              <div
+              <motion.div
                 key={product._id}
-                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
+                variants={item}
+                whileHover={{ 
+                  y: -5,
+                  transition: { duration: 0.3 }
+                }}
+                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
               >
                 <Link to={`/products/${product._id}`} className="block">
-                  {/* Product Image */}
-                  <div className="relative h-64 overflow-hidden">
-                    <img
+                  <div className="relative h-60 overflow-hidden">
+                    <motion.img
                       src={product.imgSrc}
                       alt={product.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover"
+                      initial={{ scale: 1 }}
+                      whileHover={{ 
+                        scale: 1.05,
+                        transition: { duration: 0.5 }
+                      }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                   
-                  {/* Product Info */}
-                  <div className="p-6">
-                    <span className="text-sm text-amber-600 font-medium">{product.category}</span>
-                    <h2 className="text-xl font-bold text-gray-800 mb-1">{product.title}</h2>
-                    <p className="text-lg font-semibold text-amber-600 mb-4">Rs. {product.price}</p>
+                  <div className="p-4">
+                    <motion.span 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                      className="text-xs text-amber-600 uppercase tracking-wide"
+                    >
+                      {product.category}
+                    </motion.span>
+                    <h2 className="text-lg font-semibold text-gray-800 mt-1 mb-2">{product.title}</h2>
+                    <p className="text-amber-600 font-medium">Rs. {product.price}</p>
                   </div>
                 </Link>
 
-                {/* Action Buttons */}
-                <div className="px-6 pb-6">
+                <div className="px-4 pb-4">
                   {role !== "admin" && (
-                    <button
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => addToCart(product._id, product.title, product.price, 1, product.imgSrc)}
-                      className="w-full  bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center"
+                      className="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 rounded-md transition-colors flex items-center justify-center gap-2"
                     >
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                       </svg>
                       Add to Cart
-                    </button>
+                    </motion.button>
                   )}
                   
                   {permissions?.includes("edit-product") && (
-                    <Link
-                      to={`/edit-product/${product._id}`}
-                      className="block mt-3 w-full border border-gray-300 hover:border-gray-400 text-gray-800 font-medium py-3 rounded-lg transition-colors text-center"
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.7 }}
                     >
-                      Edit Product
-                    </Link>
+                      <Link
+                        to={`/edit-product/${product._id}`}
+                        className="block mt-2 w-full border border-gray-200 hover:border-gray-300 text-gray-700 py-2 rounded-md transition-colors text-center text-sm"
+                      >
+                        Edit Product
+                      </Link>
+                    </motion.div>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
-          <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-            <svg className="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="text-center py-16 bg-white rounded-lg shadow-sm"
+          >
+            <svg className="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <h3 className="mt-4 text-xl font-medium text-gray-800">No products found</h3>
-            <p className="mt-2 text-gray-600">Try adjusting your search or filters</p>
-          </div>
+            <h3 className="mt-4 text-lg font-medium text-gray-800">No products found</h3>
+            <p className="mt-1 text-gray-600 text-sm">Try adjusting your filters</p>
+          </motion.div>
         )}
       </main>
 

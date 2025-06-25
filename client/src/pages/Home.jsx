@@ -10,9 +10,9 @@ function Home() {
   return (
     <div className="font-sans bg-white">
       {/* Hero Section */}
+          <Navbar />
       <header className="relative overflow-hidden">
         <div className="bg-gradient-to-r from-amber-50 to-amber-100 h-screen max-h-[900px]">
-          <Navbar />
           
           <div className="container mx-auto px-4 md:px-6 h-full flex items-center">
             <section className="flex flex-col md:flex-row items-center justify-between w-full">
